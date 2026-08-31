@@ -13,28 +13,34 @@ export const projects = [
     },
     // Case Study Content
     content: {
-      status: 'SOURCE_MATERIAL_INSUFFICIENT',
-      overview: 'CONTENT_PENDING - Awaiting detailed project overview.',
+      status: 'PARTIALLY_FOUND',
+      overview: 'A computer vision pipeline designed to solve cross-camera player identity mapping using fine-tuned object detection and feature extraction.',
       problem: {
-        description: 'CONTENT_PENDING - Awaiting description of the identity switching problem in sports analytics.',
-        constraint: 'CONTENT_PENDING - Awaiting specific problem constraints (e.g., occlusion, camera calibration).'
+        description: 'Mapping individual player identities consistently across two different video feeds (broadcast and tactical camera angles) of the same match.',
+        constraint: 'CONTENT_PENDING'
       },
-      approach: 'CONTENT_PENDING - Awaiting high-level technical approach.',
+      approach: 'Leveraging YOLOv8 for detection and HSV color histograms for feature extraction, followed by bipartite matching using the Hungarian Algorithm to assign consistent IDs across camera views.',
       architecture: {
-        description: 'CONTENT_PENDING - Awaiting system flow diagram or architectural breakdown.',
+        description: 'A three-stage pipeline: Detection, Feature Extraction, and Re-Identification.',
         pipeline: [
-          { stage: 'INPUT', details: 'CONTENT_PENDING' },
-          { stage: 'DETECTION', details: 'CONTENT_PENDING' },
-          { stage: 'TRACKING', details: 'CONTENT_PENDING' },
-          { stage: 'IDENTITY ASSOCIATION', details: 'CONTENT_PENDING' },
-          { stage: 'OUTPUT', details: 'CONTENT_PENDING' }
+          { stage: 'INPUT', details: 'Two synchronized video feeds (broadcast.mp4 and tacticam.mp4).' },
+          { stage: 'DETECTION', details: 'Custom-trained YOLOv8 model extracts bounding boxes and confidence scores.' },
+          { stage: 'FEATURE EXTRACTION', details: 'HSV color histograms extracted from cropped regions, normalized, and flattened to a 512-dimensional vector.' },
+          { stage: 'RE-IDENTIFICATION', details: 'Cosine similarity matrix computed between players from both feeds; Hungarian Algorithm applies 1-to-1 mapping.' },
+          { stage: 'OUTPUT', details: 'Detections and final player matches exported to structured text and CSV.' }
         ]
       },
-      technologies: ['YOLOv8', 'OpenCV', 'Python', 'PyTorch'],
+      technologies: ['YOLOv8', 'OpenCV', 'Python', 'Hungarian Algorithm'],
       engineeringDecisions: [
         {
-          decision: 'CONTENT_PENDING',
+          decision: 'HSV Color Histograms for Features',
           why: 'CONTENT_PENDING',
+          tradeOff: 'CONTENT_PENDING',
+          result: 'CONTENT_PENDING'
+        },
+        {
+          decision: 'Hungarian Algorithm for Matching',
+          why: 'Ensures strict one-to-one global optimal assignment between the two camera views rather than greedy matching.',
           tradeOff: 'CONTENT_PENDING',
           result: 'CONTENT_PENDING'
         }
@@ -48,7 +54,7 @@ export const projects = [
       ],
       results: [
         {
-          metric: 'CONTENT_PENDING',
+          metric: 'NO VERIFIED NUMERICAL RESULTS FOUND',
           value: 'CONTENT_PENDING'
         }
       ],
