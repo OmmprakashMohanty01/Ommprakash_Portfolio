@@ -13,16 +13,56 @@ export const projects = [
     },
     // Case Study Content
     content: {
-      status: 'CONTENT_PENDING',
+      status: 'SOURCE_MATERIAL_INSUFFICIENT',
       overview: 'CONTENT_PENDING - Awaiting detailed project overview.',
-      problem: 'CONTENT_PENDING - Awaiting description of the identity switching problem.',
-      approach: 'CONTENT_PENDING - Awaiting explanation of the technical approach.',
-      architecture: 'CONTENT_PENDING - Awaiting system flow diagram or architectural breakdown.',
+      problem: {
+        description: 'CONTENT_PENDING - Awaiting description of the identity switching problem in sports analytics.',
+        constraint: 'CONTENT_PENDING - Awaiting specific problem constraints (e.g., occlusion, camera calibration).'
+      },
+      approach: 'CONTENT_PENDING - Awaiting high-level technical approach.',
+      architecture: {
+        description: 'CONTENT_PENDING - Awaiting system flow diagram or architectural breakdown.',
+        pipeline: [
+          { stage: 'INPUT', details: 'CONTENT_PENDING' },
+          { stage: 'DETECTION', details: 'CONTENT_PENDING' },
+          { stage: 'TRACKING', details: 'CONTENT_PENDING' },
+          { stage: 'IDENTITY ASSOCIATION', details: 'CONTENT_PENDING' },
+          { stage: 'OUTPUT', details: 'CONTENT_PENDING' }
+        ]
+      },
       technologies: ['YOLOv8', 'OpenCV', 'Python', 'PyTorch'],
-      challenges: 'CONTENT_PENDING - Awaiting engineering challenges.',
-      solution: 'CONTENT_PENDING - Awaiting solution documentation.',
-      results: 'CONTENT_PENDING - Awaiting metrics and outcomes.',
-      learnings: null
+      engineeringDecisions: [
+        {
+          decision: 'CONTENT_PENDING',
+          why: 'CONTENT_PENDING',
+          tradeOff: 'CONTENT_PENDING',
+          result: 'CONTENT_PENDING'
+        }
+      ],
+      challenges: [
+        {
+          challenge: 'CONTENT_PENDING',
+          impact: 'CONTENT_PENDING',
+          resolution: 'CONTENT_PENDING'
+        }
+      ],
+      results: [
+        {
+          metric: 'CONTENT_PENDING',
+          value: 'CONTENT_PENDING'
+        }
+      ],
+      media: {
+        hero: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop',
+        architecture: 'CONTENT_PENDING',
+        gallery: [],
+        demoVideo: 'CONTENT_PENDING'
+      },
+      reflection: {
+        successes: 'CONTENT_PENDING',
+        failures: 'CONTENT_PENDING',
+        futureImprovements: 'CONTENT_PENDING'
+      }
     }
   },
   {
