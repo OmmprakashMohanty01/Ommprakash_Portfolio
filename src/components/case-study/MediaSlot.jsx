@@ -18,11 +18,13 @@ export default function MediaSlot({ source, type = 'image', alt = '', pendingLab
       {type === 'video' && (
         <video 
           src={source} 
+          poster={alt} // using alt prop to pass poster URL since it's available
           autoPlay 
           muted 
           loop 
           playsInline
-          className="w-full h-full object-cover"
+          preload="metadata"
+          className="w-full h-full object-cover opacity-80"
         />
       )}
     </div>

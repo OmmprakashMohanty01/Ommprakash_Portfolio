@@ -6,8 +6,15 @@ export default function CaseStudyHero({ project }) {
 
   return (
     <div className="relative w-full min-h-[70vh] flex flex-col justify-end pt-32 pb-16 overflow-hidden">
-      {/* Abstract Background pattern */}
+      {/* Abstract Background pattern and image */}
       <div className="absolute inset-0 z-0 bg-[#050505]">
+        {content?.media?.hero && content.media.hero !== 'CONTENT_PENDING' && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity"
+            style={{ backgroundImage: `url(${content.media.hero})` }}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:64px_64px]" />
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-[#00f3ff] opacity-[0.03] blur-[100px]" />
       </div>

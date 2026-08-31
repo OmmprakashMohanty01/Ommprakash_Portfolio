@@ -6,7 +6,7 @@ export const projects = [
     shortDescription: 'AI Player Tracking with YOLOv8 & OpenCV solving identity switching in sports analytics.',
     role: 'Lead AI Engineer',
     colSpan: 'md:col-span-7',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop',
+    image: '/media/sportsense/broadcast_poster.webp',
     links: {
       github: 'https://github.com/OmmprakashMohanty01',
       live: null
@@ -59,7 +59,7 @@ export const projects = [
         }
       ],
       media: {
-        hero: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop',
+        hero: '/media/sportsense/broadcast_poster.webp',
         architecture: 'CONTENT_PENDING',
         gallery: [],
         demoVideo: 'CONTENT_PENDING'

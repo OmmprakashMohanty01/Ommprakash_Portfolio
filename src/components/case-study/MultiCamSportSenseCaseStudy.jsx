@@ -20,10 +20,32 @@ export default function MultiCamSportSenseCaseStudy({ project }) {
         
         {/* SECTION 02: THE PROBLEM */}
         <CaseStudySection title="The Problem">
-          <p className="text-xl md:text-2xl text-slate-300 font-light leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-300 font-light leading-relaxed mb-12">
             {content.problem?.description}
           </p>
-          <div className="mt-8 p-6 bg-white/[0.02] border border-white/5 rounded-xl">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Input: Broadcast Camera</span>
+              <MediaSlot 
+                type="video"
+                source="/media/sportsense/broadcast.mp4"
+                alt="/media/sportsense/broadcast_poster.webp"
+                className="aspect-video"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Input: Tactical Camera</span>
+              <MediaSlot 
+                type="video"
+                source="/media/sportsense/tacticam.mp4"
+                alt="/media/sportsense/tacticam_poster.webp"
+                className="aspect-video"
+              />
+            </div>
+          </div>
+
+          <div className="p-6 bg-white/[0.02] border border-white/5 rounded-xl">
             <h4 className="text-xs font-mono uppercase tracking-widest text-slate-500 mb-2">Key Constraint</h4>
             <p className={`text-slate-300 font-light ${content.problem?.constraint === 'CONTENT_PENDING' ? 'text-amber-500/80 font-mono text-sm uppercase' : ''}`}>
               {content.problem?.constraint}
@@ -45,9 +67,9 @@ export default function MultiCamSportSenseCaseStudy({ project }) {
             The first stage relies on a custom-trained YOLOv8 model to accurately detect and extract bounding boxes for players and the ball across both camera feeds.
           </p>
           <MediaSlot 
-            source="MISSING"
+            source="CONTENT_PENDING"
             pendingLabel="Detection Output"
-            pendingDescription="Awaiting YOLOv8 bounding box annotated frames from the source repository."
+            pendingDescription="Awaiting YOLOv8 bounding box annotated frames from the source repository. The yolov8_player_ball.pt model weights are currently missing."
           />
         </CaseStudySection>
 
@@ -57,9 +79,9 @@ export default function MultiCamSportSenseCaseStudy({ project }) {
             Once isolated, each player is represented mathematically using HSV color histograms, compressed into a flattened 512-dimensional vector.
           </p>
           <MediaSlot 
-            source="MISSING"
+            source="CONTENT_PENDING"
             pendingLabel="HSV Histogram Visualization"
-            pendingDescription="Awaiting visualization of the extracted color feature vectors."
+            pendingDescription="Awaiting visualization of the extracted color feature vectors. Source generation scripts are unavailable."
           />
         </CaseStudySection>
 
@@ -105,7 +127,7 @@ export default function MultiCamSportSenseCaseStudy({ project }) {
             To prevent greedy matching collisions, the Hungarian Algorithm resolves the similarity matrix into a globally optimal 1-to-1 identity assignment.
           </p>
           <MediaSlot 
-            source="MISSING"
+            source="CONTENT_PENDING"
             pendingLabel="Matching Architecture"
             pendingDescription="Awaiting assignment matrix or bipartite graph visualization."
           />
@@ -117,10 +139,10 @@ export default function MultiCamSportSenseCaseStudy({ project }) {
             The final output verifies that a player labeled as 'ID 14' in the broadcast angle is accurately tracked as 'ID 14' in the tactical feed, entirely through appearance matching.
           </p>
           <MediaSlot 
-            source="MISSING"
+            source="CONTENT_PENDING"
             type="video"
             pendingLabel="Final Identity Output"
-            pendingDescription="Awaiting final rendering of synchronized output videos from the repository."
+            pendingDescription="Awaiting final rendering of synchronized output videos. Requires yolov8_player_ball.pt to generate."
           />
         </CaseStudySection>
 
