@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const About = () => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
   return (
     <section 
       className="py-24 md:py-32 w-full relative z-10"
@@ -38,31 +40,58 @@ const About = () => {
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Item 1 */}
-            <div className="pl-6 border-l border-white/10 relative group">
+            <motion.div 
+              className="pl-6 border-l border-white/10 relative group cursor-default"
+              onMouseEnter={() => setHoveredIndex(0)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              animate={{ 
+                opacity: hoveredIndex === null || hoveredIndex === 0 ? 1 : 0.3,
+                x: hoveredIndex === 0 ? 10 : 0
+              }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
               <div className="absolute left-[-1px] top-0 bottom-0 w-[2px] bg-white scale-y-0 origin-top transition-transform duration-500 group-hover:scale-y-100" />
-              <h5 className="text-xs tracking-widest text-slate-500 font-mono mb-2">EDUCATION</h5>
+              <h5 className="text-xs tracking-widest text-slate-500 font-mono mb-2 transition-colors duration-300 group-hover:text-slate-300">EDUCATION</h5>
               <p className="text-slate-400 text-lg font-medium transition-colors duration-300 group-hover:text-white">
                 B.Tech, Computer Science & Engineering
               </p>
-            </div>
+            </motion.div>
 
             {/* Item 2 */}
-            <div className="pl-6 border-l border-white/10 relative group">
+            <motion.div 
+              className="pl-6 border-l border-white/10 relative group cursor-default"
+              onMouseEnter={() => setHoveredIndex(1)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              animate={{ 
+                opacity: hoveredIndex === null || hoveredIndex === 1 ? 1 : 0.3,
+                x: hoveredIndex === 1 ? 10 : 0
+              }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
               <div className="absolute left-[-1px] top-0 bottom-0 w-[2px] bg-white scale-y-0 origin-top transition-transform duration-500 group-hover:scale-y-100" />
-              <h5 className="text-xs tracking-widest text-slate-500 font-mono mb-2">FOCUS</h5>
+              <h5 className="text-xs tracking-widest text-slate-500 font-mono mb-2 transition-colors duration-300 group-hover:text-slate-300">FOCUS</h5>
               <p className="text-slate-400 text-lg font-medium transition-colors duration-300 group-hover:text-white">
                 Frontier AI Operations & Full-Stack Web
               </p>
-            </div>
+            </motion.div>
 
             {/* Item 3 */}
-            <div className="pl-6 border-l border-white/10 relative group">
+            <motion.div 
+              className="pl-6 border-l border-white/10 relative group cursor-default"
+              onMouseEnter={() => setHoveredIndex(2)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              animate={{ 
+                opacity: hoveredIndex === null || hoveredIndex === 2 ? 1 : 0.3,
+                x: hoveredIndex === 2 ? 10 : 0
+              }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
               <div className="absolute left-[-1px] top-0 bottom-0 w-[2px] bg-white scale-y-0 origin-top transition-transform duration-500 group-hover:scale-y-100" />
-              <h5 className="text-xs tracking-widest text-slate-500 font-mono mb-2">LANGUAGES</h5>
+              <h5 className="text-xs tracking-widest text-slate-500 font-mono mb-2 transition-colors duration-300 group-hover:text-slate-300">LANGUAGES</h5>
               <p className="text-slate-400 text-lg font-medium transition-colors duration-300 group-hover:text-white">
                 English, Hindi, Odia
               </p>
-            </div>
+            </motion.div>
           </motion.div>
 
         </div>

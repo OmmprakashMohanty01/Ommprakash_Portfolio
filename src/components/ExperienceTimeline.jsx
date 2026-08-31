@@ -92,6 +92,7 @@ const ExperienceTimeline = () => {
                 <motion.div
                   initial={{ x: 50, opacity: 0 }}
                   whileInView={{ x: 0, opacity: 1 }}
+                  whileHover={{ scale: 1.02, x: 5, transition: { type: "spring", stiffness: 400, damping: 25 } }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{
                     duration: 0.6,

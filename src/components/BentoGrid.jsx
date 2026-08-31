@@ -51,6 +51,7 @@ const BentoGrid = () => {
           {/* CARD 1: Engineering - Multi-Cam SportSense (7 cols) */}
           <motion.div 
             variants={itemVariants}
+            whileHover={{ scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
             className="group relative md:col-span-7 rounded-3xl overflow-hidden bg-[#050505] border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-colors duration-500 hover:border-white/20"
           >
             {/* Media Background */}
@@ -74,6 +75,7 @@ const BentoGrid = () => {
           {/* CARD 2: Engineering - Personal Branding Engine (5 cols) */}
           <motion.div 
             variants={itemVariants}
+            whileHover={{ scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
             className="group relative md:col-span-5 rounded-3xl overflow-hidden bg-[#050505] border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-colors duration-500 hover:border-white/20"
           >
             {/* Media Background */}
@@ -97,6 +99,7 @@ const BentoGrid = () => {
           {/* CARD 3: Storytelling - ZERO ONE (5 cols) */}
           <motion.div 
             variants={itemVariants}
+            whileHover={{ scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
             className="group relative md:col-span-5 rounded-3xl overflow-hidden bg-[#050505] border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-colors duration-500 hover:border-white/20"
           >
             {/* Media Background with Hover Video/Graphics Reveal */}
@@ -130,6 +133,7 @@ const BentoGrid = () => {
           {/* CARD 4: Storytelling - Crazy_Cam (7 cols) */}
           <motion.div 
             variants={itemVariants}
+            whileHover={{ scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
             className="group relative md:col-span-7 rounded-3xl overflow-hidden bg-[#050505] border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-colors duration-500 hover:border-white/20"
           >
             {/* Media Background */}
