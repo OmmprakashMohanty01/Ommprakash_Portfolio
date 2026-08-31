@@ -8,7 +8,7 @@ import BentoGrid from './components/BentoGrid';
 import ExperienceTimeline from './components/ExperienceTimeline';
 import MagneticButton from './components/MagneticButton';
 import CustomCursor from './components/CustomCursor';
-import Navigation from './components/Navigation';
+import TimelineNavigation from './components/TimelineNavigation';
 import FinalCTA from './components/FinalCTA';
 import Preloader from './components/Preloader';
 
@@ -21,7 +21,7 @@ const App = () => {
       <AnimatePresence mode="wait">
         {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
       </AnimatePresence>
-      <Navigation />
+      <TimelineNavigation />
       <CustomCursor />
       <Background />
       
