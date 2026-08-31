@@ -55,10 +55,7 @@ const ExperienceTimeline = () => {
     <section className="py-24 w-full bg-[#0a0a0a] relative z-10">
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="mb-20 text-center">
-          <h2 
-            className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight" 
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-          >
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4 tracking-tight">
             Evolution & Execution
           </h2>
           <p className="text-slate-400 text-lg font-light">

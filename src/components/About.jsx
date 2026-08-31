@@ -23,7 +23,7 @@ const About = () => {
             <h4 className="text-slate-500 font-mono tracking-[0.2em] font-bold text-sm uppercase">
               The Identity Matrix
             </h4>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight">
+            <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-display font-light text-white leading-[1.1]">
               I bridge creative storytelling with scalable technology.
             </h2>
             <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed max-w-2xl">

@@ -67,7 +67,7 @@ const BentoGrid = () => {
             {/* Content */}
             <div className="relative z-10">
               <div className="mb-3 text-slate-500 font-mono text-xs tracking-widest uppercase font-bold transition-colors group-hover:text-white">Engineering</div>
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">Multi-Cam SportSense</h3>
+              <h3 className="text-3xl md:text-4xl font-display font-bold text-white mb-2">Multi-Cam SportSense</h3>
               <p className="text-slate-400 font-light max-w-md">AI Player Tracking with YOLOv8 & OpenCV solving identity switching in sports analytics.</p>
             </div>
           </motion.div>
@@ -91,7 +91,7 @@ const BentoGrid = () => {
             {/* Content */}
             <div className="relative z-10">
               <div className="mb-3 text-slate-500 font-mono text-xs tracking-widest uppercase font-bold transition-colors group-hover:text-white">Engineering</div>
-              <h3 className="text-3xl font-bold text-white mb-2">Personal-Branding-Engine</h3>
+              <h3 className="text-3xl font-display font-bold text-white mb-2">Personal-Branding-Engine</h3>
               <p className="text-slate-400 font-light">Full-stack cloud deployment engineered via Supabase, Docker, and Render.</p>
             </div>
           </motion.div>
@@ -125,7 +125,7 @@ const BentoGrid = () => {
             {/* Content */}
             <div className="relative z-30">
               <div className="mb-3 text-slate-500 font-mono text-xs tracking-widest uppercase font-bold transition-colors group-hover:text-white">Storytelling</div>
-              <h3 className="text-3xl font-bold text-white mb-2">ZERO ONE</h3>
+              <h3 className="text-3xl font-display font-bold text-white mb-2">ZERO ONE</h3>
               <p className="text-slate-400 font-light">Tech & Military Explainer channel featuring high-end motion graphics and visual motion art.</p>
             </div>
           </motion.div>
@@ -149,7 +149,7 @@ const BentoGrid = () => {
             {/* Content */}
             <div className="relative z-10">
               <div className="mb-3 text-slate-500 font-mono text-xs tracking-widest uppercase font-bold transition-colors group-hover:text-white">Storytelling</div>
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">Crazy_Cam</h3>
+              <h3 className="text-3xl md:text-4xl font-display font-bold text-white mb-2">Crazy_Cam</h3>
               <p className="text-slate-400 font-light max-w-md">Mystery & History Documentaries driving high retention through deep editing and scriptwriting.</p>
             </div>
           </motion.div>

@@ -97,13 +97,13 @@ const ScrollExpandMedia = ({
           <div className="flex items-center justify-center gap-4 w-full px-4">
             <motion.h1 
               style={{ x: textXLeft }}
-              className="text-6xl md:text-8xl lg:text-[10rem] font-bold text-white tracking-tighter uppercase"
+              className="text-[clamp(3rem,12vw,10rem)] leading-none font-display font-bold text-white tracking-tighter uppercase"
             >
               {firstWord}
             </motion.h1>
             <motion.h1 
               style={{ x: textXRight }}
-              className="text-6xl md:text-8xl lg:text-[10rem] font-bold text-white tracking-tighter uppercase"
+              className="text-[clamp(3rem,12vw,10rem)] leading-none font-display font-bold text-white tracking-tighter uppercase"
             >
               {restOfTitle}
             </motion.h1>
