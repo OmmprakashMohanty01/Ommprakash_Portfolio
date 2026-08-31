@@ -112,6 +112,7 @@ export default function BentoGrid() {
           {projects.map((project) => (
             <motion.a 
               key={project.id}
+              id={`project-node-${project.id}`}
               href={project.isBentoOnly ? undefined : `?project=${project.id}`}
               onClick={(e) => {
                 if (project.isBentoOnly) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring, useMotionValueEvent, AnimatePresence } from 'framer-motion';
+import ProjectClips from './ProjectClips';
 
 const sections = [
   { id: 'about', label: 'Intro', num: '00' },
@@ -151,20 +152,26 @@ export default function TimelineNavigation() {
                 const transform = i === 0 ? 'translateX(0)' : i === markers.length - 1 ? 'translateX(-100%)' : 'translateX(-50%)';
                 
                 return (
-                  <button
-                    key={marker.id}
-                    onClick={() => scrollToSection(marker.id)}
-                    className={`absolute top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-white/50 rounded px-2 py-4 z-30 ${
-                      isActive ? 'text-white' : 'text-slate-500 hover:text-slate-300'
-                    }`}
-                    style={{ left: `${marker.position}%`, transform }}
-                    aria-current={isActive ? 'step' : undefined}
-                  >
-                    <span className="w-[1px] h-3 bg-current opacity-30 group-hover:opacity-100 transition-opacity" />
-                    <span className="text-[10px] font-mono tracking-widest uppercase transition-colors whitespace-nowrap mt-1">
-                      {marker.num} / {marker.label}
-                    </span>
-                  </button>
+                  <React.Fragment key={marker.id}>
+                    <button
+                      onClick={() => scrollToSection(marker.id)}
+                      className={`absolute top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-white/50 rounded px-2 py-4 z-30 ${
+                        isActive ? 'text-white' : 'text-slate-500 hover:text-slate-300'
+                      }`}
+                      style={{ left: `${marker.position}%`, transform }}
+                      aria-current={isActive ? 'step' : undefined}
+                    >
+                      <span className="w-[1px] h-3 bg-current opacity-30 group-hover:opacity-100 transition-opacity" />
+                      <span className="text-[10px] font-mono tracking-widest uppercase transition-colors whitespace-nowrap mt-1">
+                        {marker.num} / {marker.label}
+                      </span>
+                    </button>
+                    {marker.id === 'work' && (
+                      <div className="absolute top-1/2 -translate-y-1/2 z-30" style={{ left: `${marker.position}%`, transform }}>
+                        <ProjectClips isVisible={isActive} isMobile={false} />
+                      </div>
+                    )}
+                  </React.Fragment>
                 );
               })}
             </div>
@@ -206,25 +213,29 @@ export default function TimelineNavigation() {
                 const isActive = activeSection === section.id;
                 
                 return (
-                  <button
-                    key={section.id}
-                    onClick={() => scrollToSection(section.id)}
-                    className={`relative flex items-center gap-8 group focus:outline-none focus:ring-2 focus:ring-white/50 rounded p-2 -ml-2 text-left z-10 ${
-                      isActive ? 'text-white' : 'text-slate-500'
-                    }`}
-                  >
-                    {/* Vertical Marker */}
-                    <span className={`w-2 h-2 rounded-full z-10 transition-colors ${isActive ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.5)]' : 'bg-slate-700'}`} />
-                    
-                    <div className="flex flex-col gap-1">
-                      <span className="text-xs font-mono tracking-widest uppercase opacity-50">
-                        {section.num}
-                      </span>
-                      <span className="text-xl font-display tracking-tight transition-colors group-hover:text-white">
-                        {section.label}
-                      </span>
-                    </div>
-                  </button>
+                  <React.Fragment key={section.id}>
+                    <button
+                      onClick={() => scrollToSection(section.id)}
+                      className={`relative flex items-center gap-8 group focus:outline-none focus:ring-2 focus:ring-white/50 rounded p-2 -ml-2 text-left z-10 ${
+                        isActive ? 'text-white' : 'text-slate-500'
+                      }`}
+                    >
+                      {/* Vertical Marker */}
+                      <span className={`w-2 h-2 rounded-full z-10 transition-colors ${isActive ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.5)]' : 'bg-slate-700'}`} />
+                      
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs font-mono tracking-widest uppercase opacity-50">
+                          {section.num}
+                        </span>
+                        <span className="text-xl font-display tracking-tight transition-colors group-hover:text-white">
+                          {section.label}
+                        </span>
+                      </div>
+                    </button>
+                    {section.id === 'work' && (
+                      <ProjectClips isVisible={isActive} isMobile={true} />
+                    )}
+                  </React.Fragment>
                 );
               })}
             </div>
