@@ -7,11 +7,14 @@ import BentoGrid from './components/BentoGrid';
 import ExperienceTimeline from './components/ExperienceTimeline';
 import MagneticButton from './components/MagneticButton';
 import CustomCursor from './components/CustomCursor';
+import Navigation from './components/Navigation';
+import FinalCTA from './components/FinalCTA';
 
 const App = () => {
   return (
     <SmoothScroll>
       {/* Globally Active Components at Root */}
+      <Navigation />
       <CustomCursor />
       <Background />
       
@@ -29,8 +32,10 @@ const App = () => {
         
         <ExperienceTimeline />
         
+        <FinalCTA />
+        
         {/* Minimalist Footer */}
-        <footer className="w-full border-t border-white/5 py-12 mt-24 bg-[#0a0a0a]/50 backdrop-blur-sm">
+        <footer className="w-full py-12 bg-[#0a0a0a]/50 backdrop-blur-sm">
           <div className="container mx-auto px-6 max-w-6xl flex flex-col md:flex-row items-center justify-between gap-8">
             
             <div className="text-slate-500 font-mono text-sm tracking-widest uppercase">

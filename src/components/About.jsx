@@ -6,6 +6,7 @@ const About = () => {
 
   return (
     <section 
+      id="about"
       className="py-24 md:py-32 w-full relative z-10"
       style={{ contentVisibility: 'auto' }}
     >

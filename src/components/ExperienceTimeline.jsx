@@ -52,7 +52,7 @@ const ExperienceTimeline = () => {
   ];
 
   return (
-    <section className="py-24 w-full bg-[#0a0a0a] relative z-10">
+    <section id="experience" className="py-24 w-full bg-[#0a0a0a] relative z-10">
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="mb-20 text-center">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4 tracking-tight">
