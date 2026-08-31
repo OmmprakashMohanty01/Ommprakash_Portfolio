@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useLenis } from 'lenis/react';
 
 export default function ProjectModal({ project, onClose }) {
   const lenis = useLenis();
   const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
 
+  // Stop background scroll
   useEffect(() => {
     if (project && lenis) {
       lenis.stop();
@@ -15,11 +18,47 @@ export default function ProjectModal({ project, onClose }) {
     };
   }, [project, lenis]);
 
+  // Keyboard navigation & Focus Trapping
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const focusableElements = modalRef.current?.querySelectorAll(
+          'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
     };
+    
     window.addEventListener('keydown', handleKeyDown);
+    
+    // Autofocus close button on mount
+    if (closeButtonRef.current) {
+      setTimeout(() => {
+        if (closeButtonRef.current) closeButtonRef.current.focus();
+      }, 50); // slight delay to allow layout to settle
+    }
+
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
 
@@ -27,16 +66,20 @@ export default function ProjectModal({ project, onClose }) {
 
   return (
     <motion.div 
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={`modal-title-${project.id}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
       className="fixed inset-0 z-50 overflow-y-auto bg-[#050505] overscroll-none"
       ref={modalRef}
     >
       {/* Fixed Header / Close Button */}
       <div className="fixed top-0 left-0 right-0 z-50 flex justify-end items-center p-6 md:p-10 pointer-events-none">
         <button 
+          ref={closeButtonRef}
           onClick={onClose}
           className="pointer-events-auto w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 group"
           aria-label="Close Case Study"
@@ -49,12 +92,12 @@ export default function ProjectModal({ project, onClose }) {
 
       {/* Hero Section */}
       <motion.div 
-        layoutId={`project-container-${project.id}`}
+        layoutId={shouldReduceMotion ? undefined : `project-container-${project.id}`}
         className="relative w-full h-[60vh] md:h-[80vh] flex flex-col justify-end overflow-hidden"
       >
         <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
           <motion.img
-            layoutId={`project-image-${project.id}`}
+            layoutId={shouldReduceMotion ? undefined : `project-image-${project.id}`}
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover opacity-80"
@@ -63,13 +106,13 @@ export default function ProjectModal({ project, onClose }) {
         </div>
         
         <div className="relative z-10 container mx-auto px-6 max-w-5xl pb-12 md:pb-20">
-          <motion.div layoutId={`project-category-${project.id}`} className="mb-4 text-slate-400 font-mono text-sm tracking-widest uppercase font-bold">
+          <motion.div layoutId={shouldReduceMotion ? undefined : `project-category-${project.id}`} className="mb-4 text-slate-400 font-mono text-sm tracking-widest uppercase font-bold">
             {project.category}
           </motion.div>
-          <motion.h1 layoutId={`project-title-${project.id}`} className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-6 tracking-tight leading-[1.1]">
+          <motion.h1 id={`modal-title-${project.id}`} layoutId={shouldReduceMotion ? undefined : `project-title-${project.id}`} className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-6 tracking-tight leading-[1.1]">
             {project.title}
           </motion.h1>
-          <motion.p layoutId={`project-desc-${project.id}`} className="text-xl md:text-2xl text-slate-300 font-light max-w-3xl">
+          <motion.p layoutId={shouldReduceMotion ? undefined : `project-desc-${project.id}`} className="text-xl md:text-2xl text-slate-300 font-light max-w-3xl">
             {project.shortDescription}
           </motion.p>
         </div>
@@ -82,9 +125,9 @@ export default function ProjectModal({ project, onClose }) {
             
             {/* Metadata Bar */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: shouldReduceMotion ? 0 : 0.2 }}
               className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 border-y border-white/10 mb-16 font-mono text-sm"
             >
               <div>
@@ -154,9 +197,9 @@ export default function ProjectModal({ project, onClose }) {
           </div>
         ) : (
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: shouldReduceMotion ? 0 : 0.2 }}
             className="flex flex-col items-center justify-center text-center py-20"
           >
             <h2 className="text-3xl font-display font-bold text-white mb-6">Project Overview</h2>

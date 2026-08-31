@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useInView, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { projects } from '../data/projects';
 import ProjectModal from './ProjectModal';
 
@@ -7,6 +7,69 @@ export default function BentoGrid() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-10%" });
   const [activeProject, setActiveProject] = useState(null);
+  const triggerRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Initialize from URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const projectId = params.get('project');
+    if (projectId) {
+      const project = projects.find(p => p.id === projectId);
+      if (project) {
+        setActiveProject(project);
+      } else {
+        // Invalid ID -> clean URL
+        const url = new URL(window.location);
+        url.searchParams.delete('project');
+        window.history.replaceState({}, '', url);
+      }
+    }
+  }, []);
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const projectId = params.get('project');
+      if (projectId) {
+        const project = projects.find(p => p.id === projectId);
+        setActiveProject(project || null);
+      } else {
+        setActiveProject(null);
+        // Focus restoration if we navigate back to grid
+        if (triggerRef.current) {
+          triggerRef.current.focus();
+        }
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const openProject = (project, event) => {
+    if (event) {
+      triggerRef.current = event.currentTarget;
+    }
+    setActiveProject(project);
+    const url = new URL(window.location);
+    url.searchParams.set('project', project.id);
+    window.history.pushState({}, '', url);
+  };
+
+  const closeProject = () => {
+    setActiveProject(null);
+    const url = new URL(window.location);
+    url.searchParams.delete('project');
+    window.history.pushState({}, '', url);
+    
+    // Focus restoration after modal unmounts
+    setTimeout(() => {
+      if (triggerRef.current) {
+        triggerRef.current.focus();
+      }
+    }, shouldReduceMotion ? 0 : 400);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -49,14 +112,17 @@ export default function BentoGrid() {
           {projects.map((project) => (
             <motion.a 
               key={project.id}
-              href={project.links.live || project.links.github || '#'}
+              href={`?project=${project.id}`}
               onClick={(e) => {
-                e.preventDefault();
-                setActiveProject(project);
+                // Only prevent default if we're not opening in a new tab
+                if (e.button === 0 && !e.ctrlKey && !e.metaKey) {
+                  e.preventDefault();
+                  openProject(project, e);
+                }
               }}
-              layoutId={`project-container-${project.id}`}
+              layoutId={shouldReduceMotion ? undefined : `project-container-${project.id}`}
               variants={itemVariants}
-              whileHover={{ scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
+              whileHover={shouldReduceMotion ? {} : { scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
               className={`group relative ${project.colSpan} rounded-3xl overflow-hidden bg-[#050505] border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-all duration-500 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent cursor-pointer`}
             >
               {/* Top Right Arrow Indicator */}
@@ -69,7 +135,7 @@ export default function BentoGrid() {
               {/* Media Background */}
               <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
                 <motion.img
-                  layoutId={`project-image-${project.id}`}
+                  layoutId={shouldReduceMotion ? undefined : `project-image-${project.id}`}
                   src={project.image}
                   alt={project.title}
                   loading="lazy"
@@ -90,13 +156,13 @@ export default function BentoGrid() {
               
               {/* Content */}
               <div className="relative z-30 transition-transform duration-500 group-hover:translate-y-[-4px]">
-                <motion.div layoutId={`project-category-${project.id}`} className="mb-3 text-slate-500 font-mono text-xs tracking-widest uppercase font-bold transition-colors group-hover:text-white">
+                <motion.div layoutId={shouldReduceMotion ? undefined : `project-category-${project.id}`} className="mb-3 text-slate-500 font-mono text-xs tracking-widest uppercase font-bold transition-colors group-hover:text-white">
                   {project.category}
                 </motion.div>
-                <motion.h3 layoutId={`project-title-${project.id}`} className="text-3xl md:text-4xl font-display font-bold text-white mb-2">
+                <motion.h3 layoutId={shouldReduceMotion ? undefined : `project-title-${project.id}`} className="text-3xl md:text-4xl font-display font-bold text-white mb-2">
                   {project.title}
                 </motion.h3>
-                <motion.p layoutId={`project-desc-${project.id}`} className="text-slate-400 font-light max-w-md">
+                <motion.p layoutId={shouldReduceMotion ? undefined : `project-desc-${project.id}`} className="text-slate-400 font-light max-w-md">
                   {project.shortDescription}
                 </motion.p>
               </div>
@@ -110,7 +176,7 @@ export default function BentoGrid() {
           <ProjectModal 
             key="project-modal" 
             project={activeProject} 
-            onClose={() => setActiveProject(null)} 
+            onClose={closeProject} 
           />
         )}
       </AnimatePresence>
