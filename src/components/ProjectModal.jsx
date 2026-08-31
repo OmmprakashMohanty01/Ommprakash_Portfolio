@@ -1,8 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLenis } from 'lenis/react';
-import MultiCamSportSenseCaseStudy from './case-study/MultiCamSportSenseCaseStudy';
-import PersonalBrandingEngineCaseStudy from './case-study/PersonalBrandingEngineCaseStudy';
+
+const MultiCamSportSenseCaseStudy = lazy(() => import('./case-study/MultiCamSportSenseCaseStudy'));
+const PersonalBrandingEngineCaseStudy = lazy(() => import('./case-study/PersonalBrandingEngineCaseStudy'));
+
+const CaseStudyLoadingFallback = () => (
+  <div className="w-full h-screen flex items-center justify-center bg-[#050505]">
+    <span className="font-mono text-sm tracking-widest text-slate-500 uppercase animate-pulse">
+      Loading Case Study / 01
+    </span>
+  </div>
+);
 
 export default function ProjectModal({ project, onClose }) {
   const lenis = useLenis();
@@ -93,9 +102,13 @@ export default function ProjectModal({ project, onClose }) {
       </div>
 
       {project.id === 'multi-cam-sportsense' ? (
-        <MultiCamSportSenseCaseStudy project={project} />
+        <Suspense fallback={<CaseStudyLoadingFallback />}>
+          <MultiCamSportSenseCaseStudy project={project} />
+        </Suspense>
       ) : project.id === 'personal-branding-engine' ? (
-        <PersonalBrandingEngineCaseStudy project={project} />
+        <Suspense fallback={<CaseStudyLoadingFallback />}>
+          <PersonalBrandingEngineCaseStudy project={project} />
+        </Suspense>
       ) : (
         <>
           {/* Hero Section */}
