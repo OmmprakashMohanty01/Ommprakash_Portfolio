@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLenis } from 'lenis/react';
+import MultiCamSportSenseCaseStudy from './case-study/MultiCamSportSenseCaseStudy';
 
 export default function ProjectModal({ project, onClose }) {
   const lenis = useLenis();
@@ -90,7 +91,11 @@ export default function ProjectModal({ project, onClose }) {
         </button>
       </div>
 
-      {/* Hero Section */}
+      {project.id === 'multi-cam-sportsense' ? (
+        <MultiCamSportSenseCaseStudy project={project} />
+      ) : (
+        <>
+          {/* Hero Section */}
       <motion.div 
         layoutId={shouldReduceMotion ? undefined : `project-container-${project.id}`}
         className="relative w-full h-[60vh] md:h-[80vh] flex flex-col justify-end overflow-hidden"
@@ -221,6 +226,8 @@ export default function ProjectModal({ project, onClose }) {
           </motion.div>
         )}
       </div>
+        </>
+      )}
     </motion.div>
   );
 }
