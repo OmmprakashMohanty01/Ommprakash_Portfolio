@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import SmoothScroll from './components/SmoothScroll';
 import Background from './components/Background';
 import ScrollExpandMedia from './components/ui/scroll-expansion-hero';
@@ -9,11 +10,17 @@ import MagneticButton from './components/MagneticButton';
 import CustomCursor from './components/CustomCursor';
 import Navigation from './components/Navigation';
 import FinalCTA from './components/FinalCTA';
+import Preloader from './components/Preloader';
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <SmoothScroll>
       {/* Globally Active Components at Root */}
+      <AnimatePresence mode="wait">
+        {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
       <Navigation />
       <CustomCursor />
       <Background />
