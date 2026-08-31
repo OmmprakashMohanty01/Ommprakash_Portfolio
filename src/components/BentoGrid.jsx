@@ -112,8 +112,12 @@ export default function BentoGrid() {
           {projects.map((project) => (
             <motion.a 
               key={project.id}
-              href={`?project=${project.id}`}
+              href={project.isBentoOnly ? undefined : `?project=${project.id}`}
               onClick={(e) => {
+                if (project.isBentoOnly) {
+                  e.preventDefault();
+                  return;
+                }
                 // Only prevent default if we're not opening in a new tab
                 if (e.button === 0 && !e.ctrlKey && !e.metaKey) {
                   e.preventDefault();
@@ -123,14 +127,16 @@ export default function BentoGrid() {
               layoutId={shouldReduceMotion ? undefined : `project-container-${project.id}`}
               variants={itemVariants}
               whileHover={shouldReduceMotion ? {} : { scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
-              className={`group relative ${project.colSpan} rounded-3xl overflow-hidden bg-[#050505] border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-all duration-500 hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent cursor-pointer`}
+              className={`group relative ${project.colSpan} rounded-3xl overflow-hidden bg-[#050505] border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-all duration-500 ${!project.isBentoOnly ? 'hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent cursor-pointer' : ''}`}
             >
               {/* Top Right Arrow Indicator */}
-              <div className="absolute top-8 right-8 z-20 w-10 h-10 rounded-full bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                  <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
+              {!project.isBentoOnly && (
+                <div className="absolute top-8 right-8 z-20 w-10 h-10 rounded-full bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              )}
 
               {/* Media Background */}
               <div className="absolute inset-0 z-0 bg-[#0a0a0a]">

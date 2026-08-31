@@ -33,23 +33,13 @@ export const projects = [
       technologies: ['YOLOv8', 'OpenCV', 'Python', 'Hungarian Algorithm'],
       engineeringDecisions: [
         {
-          decision: 'HSV Color Histograms for Features',
-          why: 'CONTENT_PENDING',
-          tradeOff: 'CONTENT_PENDING',
-          result: 'CONTENT_PENDING'
-        },
-        {
           decision: 'Hungarian Algorithm for Matching',
-          why: 'Ensures strict one-to-one global optimal assignment between the two camera views rather than greedy matching.',
-          tradeOff: 'CONTENT_PENDING',
-          result: 'CONTENT_PENDING'
+          why: 'Ensures strict one-to-one global optimal assignment between the two camera views rather than greedy matching.'
         }
       ],
       challenges: [
         {
-          challenge: 'CONTENT_PENDING',
-          impact: 'CONTENT_PENDING',
-          resolution: 'CONTENT_PENDING'
+          challenge: 'CONTENT_PENDING'
         }
       ],
       results: [
@@ -61,13 +51,7 @@ export const projects = [
       media: {
         hero: '/media/sportsense/broadcast_poster.webp',
         architecture: 'CONTENT_PENDING',
-        gallery: [],
         demoVideo: 'CONTENT_PENDING'
-      },
-      reflection: {
-        successes: 'CONTENT_PENDING',
-        failures: 'CONTENT_PENDING',
-        futureImprovements: 'CONTENT_PENDING'
       }
     }
   },
@@ -133,20 +117,17 @@ export const projects = [
         {
           decision: 'Stateless Webhooks over Persistent Threads',
           why: 'Allows the system to run on scale-to-zero serverless backends or minimal footprint deployments.',
-          tradeOff: 'Relies on an external cron-job.org service rather than internal event loops.',
-          result: 'CONTENT_PENDING'
+          tradeOff: 'Relies on an external cron-job.org service rather than internal event loops.'
         },
         {
           decision: 'Immediate Database Lock (scheduled_for = None)',
           why: 'Prevents concurrent cron requests from fetching the same draft, avoiding double-publishing.',
-          tradeOff: 'Requires strict transaction ordering and commit guarantees before executing external API calls.',
-          result: 'CONTENT_PENDING'
+          tradeOff: 'Requires strict transaction ordering and commit guarantees before executing external API calls.'
         },
         {
           decision: 'Fail-Safe Non-Blocking Image Generation',
           why: 'Guarantees that a transient failure in image generation or upload does not crash the entire transaction.',
-          tradeOff: 'Drafts will occasionally publish as text-only rather than failing entirely and awaiting manual retry.',
-          result: 'CONTENT_PENDING'
+          tradeOff: 'Drafts will occasionally publish as text-only rather than failing entirely and awaiting manual retry.'
         }
       ],
       limitations: [
@@ -162,26 +143,12 @@ export const projects = [
     category: 'Storytelling',
     shortDescription: 'Tech & Military Explainer channel featuring high-end motion graphics and visual motion art.',
     role: 'Motion Designer & Creator',
-    colSpan: 'md:col-span-5',
-    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop',
-    hoverVideoPlaceholder: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop',
+    colSpan: 'md:col-span-12',
+    image: '/media/zero-one/logo.jpeg',
+    isBentoOnly: true,
     links: {
       github: null,
-      live: '#'
-    },
-    content: null
-  },
-  {
-    id: 'crazy-cam',
-    title: 'Crazy_Cam',
-    category: 'Storytelling',
-    shortDescription: 'Mystery & History Documentaries driving high retention through deep editing and scriptwriting.',
-    role: 'Scriptwriter & Editor',
-    colSpan: 'md:col-span-7',
-    image: 'https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?q=80&w=1600&auto=format&fit=crop',
-    links: {
-      github: null,
-      live: '#'
+      live: null
     },
     content: null
   }
