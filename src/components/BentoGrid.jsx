@@ -91,7 +91,7 @@ export default function BentoGrid() {
   };
 
   return (
-    <section className="py-24 w-full bg-[#050505] relative z-10" id="work">
+    <section className="py-24 w-full bg-[#050505] md:bg-transparent relative z-10" id="work">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Section Header */}
         <div className="mb-16 flex flex-col items-center text-center">
@@ -128,7 +128,7 @@ export default function BentoGrid() {
               layoutId={shouldReduceMotion ? undefined : `project-container-${project.id}`}
               variants={itemVariants}
               whileHover={shouldReduceMotion ? {} : { scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
-              className={`group relative ${project.colSpan} rounded-3xl overflow-hidden bg-[#050505] border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-all duration-500 ${!project.isBentoOnly ? 'hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent cursor-pointer' : ''}`}
+              className={`group relative ${project.colSpan} rounded-3xl overflow-hidden bg-[#050505] md:bg-transparent md:backdrop-blur-sm border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-all duration-500 ${!project.isBentoOnly ? 'hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent cursor-pointer' : ''}`}
             >
               {/* Top Right Arrow Indicator */}
               {!project.isBentoOnly && (
@@ -140,7 +140,7 @@ export default function BentoGrid() {
               )}
 
               {/* Media Background */}
-              <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
+              <div className="absolute inset-0 z-0 bg-[#0a0a0a] md:bg-transparent">
                 <motion.img
                   layoutId={shouldReduceMotion ? undefined : `project-image-${project.id}`}
                   src={project.image}
@@ -158,7 +158,7 @@ export default function BentoGrid() {
                     }}
                   />
                 )}
-                <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#0a0a0a] md:from-[#0a0a0a]/50 via-[#0a0a0a]/80 md:via-[#0a0a0a]/30 to-transparent pointer-events-none" />
               </div>
               
               {/* Content */}

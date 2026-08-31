@@ -11,6 +11,7 @@ import CustomCursor from './components/CustomCursor';
 import TimelineNavigation from './components/TimelineNavigation';
 import FinalCTA from './components/FinalCTA';
 import Preloader from './components/Preloader';
+import CareerReel from './components/career-reel/CareerReel';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +24,7 @@ const App = () => {
       </AnimatePresence>
       <TimelineNavigation />
       <CustomCursor />
+      <CareerReel />
       <Background />
       
       {/* Main Content Stack */}
