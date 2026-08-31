@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLenis } from 'lenis/react';
 import MultiCamSportSenseCaseStudy from './case-study/MultiCamSportSenseCaseStudy';
-import SystemPipeline from './case-study/SystemPipeline';
+import PersonalBrandingEngineCaseStudy from './case-study/PersonalBrandingEngineCaseStudy';
 
 export default function ProjectModal({ project, onClose }) {
   const lenis = useLenis();
@@ -94,6 +94,8 @@ export default function ProjectModal({ project, onClose }) {
 
       {project.id === 'multi-cam-sportsense' ? (
         <MultiCamSportSenseCaseStudy project={project} />
+      ) : project.id === 'personal-branding-engine' ? (
+        <PersonalBrandingEngineCaseStudy project={project} />
       ) : (
         <>
           {/* Hero Section */}
@@ -208,25 +210,6 @@ export default function ProjectModal({ project, onClose }) {
             transition={{ delay: shouldReduceMotion ? 0 : 0.2 }}
             className="flex flex-col items-center justify-center text-center py-20 w-full"
           >
-            {project.id === 'personal-branding-engine' && (
-              <div className="w-full mb-20">
-                <h3 className="text-2xl font-display font-bold text-white mb-2 text-center">System Architecture (Preview)</h3>
-                <p className="text-slate-400 text-center mb-12 font-mono text-sm uppercase tracking-widest">Stateless Orchestration Pipeline</p>
-                <div className="w-[100vw] relative left-1/2 -translate-x-1/2 px-4 md:px-0">
-                  <SystemPipeline 
-                    nodes={[
-                      { id: 'trigger', label: 'Trigger', subLabel: 'Serverless Cron' },
-                      { id: 'scheduler', label: 'Scheduler', subLabel: 'Queue Manager' },
-                      { id: 'dispatch', label: 'Dispatch', subLabel: 'Lock Mechanism' },
-                      { id: 'idempotency', label: 'Idempotency', subLabel: 'Key Check' },
-                      { id: 'verification', label: 'Verification', subLabel: 'HMAC Security' },
-                      { id: 'publishing', label: 'Publishing', subLabel: 'LinkedIn API' }
-                    ]} 
-                  />
-                </div>
-              </div>
-            )}
-            
             <h2 className="text-3xl font-display font-bold text-white mb-6">Project Overview</h2>
             <p className="text-xl text-slate-400 font-light max-w-2xl mb-12">
               This project does not currently have an expanded case study. You can view the source code or live demo directly.
