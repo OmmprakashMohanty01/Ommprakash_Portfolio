@@ -38,7 +38,7 @@ export default function HeroIdentity() {
       */}
       <motion.div 
         style={{ x: textX, y: textY }}
-        className="relative z-20 w-full pl-[6vw] flex flex-col items-start justify-center pointer-events-none max-w-[65vw]"
+        className="relative z-30 w-full pl-[6vw] flex flex-col items-start justify-center pointer-events-none max-w-[90vw] md:max-w-[65vw] pt-24 md:pt-0"
       >
         <div className="overflow-hidden pb-2">
           <motion.h1 
@@ -97,17 +97,15 @@ export default function HeroIdentity() {
         style={{ x: portraitX }}
         initial={{ opacity: 0, x: "10vw", filter: "blur(10px)" }}
         animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-        transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.2 }}
-        className="absolute bottom-0 right-0 md:right-[2vw] z-10 w-[85vw] md:w-[45vw] h-[85vh] pointer-events-none"
+        transition={{ duration: 1.5, ease, delay: 0.2 }}
+        className="absolute bottom-0 right-0 z-10 w-[100vw] h-[65vh] md:w-[45vw] md:h-[85vh] pointer-events-none"
       >
-        <img 
-          src="/suit-cutout-clean.png" 
-          alt="Ommprakash Mohanty" 
-          className="w-full h-full object-cover object-bottom grayscale contrast-[1.1] brightness-[0.9] mix-blend-lighten"
-        />
+        <img src="/suit-cutout-clean.png" alt="Ommprakash Mohanty" className="w-full h-full object-cover object-bottom grayscale contrast-[1.1] brightness-[0.8] md:brightness-[0.9] mix-blend-lighten" />
+        
         {/* Seamless Blending Masks */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/20 to-transparent" />
-        <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#030303] to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/40 to-transparent" />
+        {/* Mobile-specific mask to darken the left side behind the text */}
+        <div className="absolute inset-y-0 left-0 w-full md:w-1/3 bg-gradient-to-r from-[#030303] via-[#030303]/80 md:via-transparent to-transparent opacity-100 md:opacity-80" />
       </motion.div>
 
       {/* 4. Foreground UI (Status & Scroll Indicators) */}

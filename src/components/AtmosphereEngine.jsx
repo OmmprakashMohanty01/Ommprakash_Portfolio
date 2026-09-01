@@ -59,7 +59,7 @@ export default function AtmosphereEngine() {
       {/* 3. VOLUMETRIC CURSOR SPOTLIGHT */}
       <motion.div
         style={{ x: smoothX, y: smoothY, translateX: '-50%', translateY: '-50%' }}
-        className="absolute top-0 left-0 w-[80vw] md:w-[40vw] aspect-square rounded-full mix-blend-screen"
+        className="hidden md:block absolute top-0 left-0 w-[40vw] aspect-square rounded-full mix-blend-screen"
       >
         <div className="w-full h-full rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.04)_0%,rgba(255,51,0,0.015)_40%,transparent_70%)]" />
       </motion.div>

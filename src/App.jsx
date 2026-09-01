@@ -81,15 +81,17 @@ export default function App() {
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 1 }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 1 }}
         className="fixed bottom-6 right-6 md:bottom-12 md:right-12 z-[100] pointer-events-auto"
       >
         <button 
           onClick={() => setCommandMode(true)}
-          className="flex items-center gap-3 px-6 py-3 bg-black/40 backdrop-blur-2xl saturate-150 border border-white/10 rounded-full font-mono text-[9px] text-white/70 hover:text-white hover:bg-white/5 hover:border-white/30 transition-all duration-300 uppercase tracking-[0.3em] shadow-2xl"
+          className="flex items-center gap-3 px-5 md:px-6 py-3 bg-black/40 backdrop-blur-2xl saturate-150 border border-white/10 rounded-full font-mono text-[9px] text-white/70 hover:text-white hover:bg-white/5 hover:border-white/30 transition-all duration-300 uppercase tracking-[0.2em] md:tracking-[0.3em] shadow-2xl"
         >
-          <span className="text-[#FF3300]">●</span>
-          [ CMD + K ] Search
+          <span className="text-[#FF3300] animate-pulse">●</span>
+          {/* UPGRADE: Responsive text changes based on device */}
+          <span className="md:hidden">[ TAP ] COMMAND</span>
+          <span className="hidden md:inline">[ CMD + K ] SEARCH</span>
         </button>
       </motion.div>
 
