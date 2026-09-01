@@ -1,52 +1,43 @@
-import React, { useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { PerformanceMonitor } from '@react-three/drei';
-import CareerCamera from './CareerCamera';
-import CareerEnvironment from './CareerEnvironment';
-import CareerTimelineObject from './CareerTimelineObject';
-import SportSenseClip from './projects/SportSenseClip';
-import BrandingEngineClip from './projects/BrandingEngineClip';
-import ZeroOneClip from './projects/ZeroOneClip';
+import React, { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { Grid } from '@react-three/drei';
 
-export default function CareerScene({ isMobile }) {
-  const [dpr, setDpr] = useState(1.5);
+export default function CareerScene() {
+  const gridRef = useRef();
+
+  // Endlessly move the grid forward along Z-axis for infinite momentum
+  useFrame((state, delta) => {
+    if (gridRef.current) {
+      gridRef.current.position.z += delta * 1.5;
+      if (gridRef.current.position.z > 5) {
+        gridRef.current.position.z = 0;
+      }
+    }
+  });
 
   return (
-    <Canvas
-      dpr={dpr}
-      camera={{ position: [0, 0, 5], fov: 45 }}
-      gl={{ 
-        antialias: !isMobile, 
-        powerPreference: "high-performance",
-        alpha: true 
-      }}
-    >
-      <PerformanceMonitor 
-        onDecline={() => setDpr(1)} 
-        onIncline={() => setDpr(Math.min(window.devicePixelRatio, 1.5))} 
-      />
-      
-      <CareerEnvironment isMobile={isMobile} />
-      
-      {/* 
-        The Camera controller contains the GSAP ScrollTrigger timeline 
-        that choreographs the whole scene.
-      */}
-      <CareerCamera isMobile={isMobile} />
-      
-      {/* Group containing all timeline elements, positioned in space */}
-      <group position={[0, 0, 0]}>
-        <CareerTimelineObject isMobile={isMobile} />
-        
-        {/* Project 01 */}
-        <SportSenseClip position={[0, 0, -10]} isMobile={isMobile} />
-        
-        {/* Project 02 */}
-        <BrandingEngineClip position={[0, -5, -25]} isMobile={isMobile} />
-        
-        {/* Project 03 */}
-        <ZeroOneClip position={[10, 5, -40]} isMobile={isMobile} />
+    <>
+      {/* Deep cinematic fog so grid fades into the dark abyss */}
+      <fog attach="fog" args={['#050505', 5, 25]} />
+
+      {/* High-fashion stark spotlight from above */}
+      <spotLight position={[0, 10, 5]} intensity={4} color="#ffffff" penumbra={1} angle={0.8} />
+      <ambientLight intensity={0.15} />
+
+      {/* The Architectural Data Floor */}
+      <group ref={gridRef} position={[0, -2.2, 0]}>
+        <Grid
+          position={[0, 0, 0]}
+          args={[100, 100]} 
+          cellSize={1} 
+          cellThickness={1}
+          cellColor="#1a1a1a"
+          sectionSize={5} 
+          sectionThickness={1.5}
+          sectionColor="#ffffff"
+          fadeDistance={25}
+        />
       </group>
-    </Canvas>
+    </>
   );
 }

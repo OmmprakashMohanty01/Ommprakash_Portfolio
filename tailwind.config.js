@@ -7,9 +7,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['"Space Grotesk"', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace'],
+        sans: ['"Geist"', 'sans-serif'],
+        display: ['"Fraunces Variable"', 'serif'],
+        mono: ['"Geist Mono"', 'monospace'],
       }
     },
   },

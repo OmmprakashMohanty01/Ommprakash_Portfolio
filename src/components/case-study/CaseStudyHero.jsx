@@ -23,7 +23,7 @@ export default function CaseStudyHero({ project }) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
           className="mb-6 flex flex-wrap gap-4 items-center font-mono text-xs md:text-sm tracking-widest uppercase"
         >
           <span className="text-[#00f3ff] font-bold">{category}</span>
@@ -34,7 +34,7 @@ export default function CaseStudyHero({ project }) {
         <motion.h1 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.1 }}
           className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white tracking-tight leading-[1.05] max-w-5xl mb-12"
         >
           {title}
@@ -44,7 +44,7 @@ export default function CaseStudyHero({ project }) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.2 }}
           className="flex flex-wrap gap-x-12 gap-y-6 pt-10 border-t border-white/10"
         >
           {technologies.slice(0, 4).map((tech, idx) => (

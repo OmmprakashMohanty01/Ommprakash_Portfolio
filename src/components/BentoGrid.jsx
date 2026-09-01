@@ -1,192 +1,243 @@
-import { useRef, useState, useEffect } from 'react';
-import { motion, useInView, AnimatePresence, useReducedMotion } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { projects } from '../data/projects';
-import ProjectModal from './ProjectModal';
+import CaseStudyModal from './CaseStudyModal';
 
-export default function BentoGrid() {
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-10%" });
-  const [activeProject, setActiveProject] = useState(null);
-  const triggerRef = useRef(null);
-  const shouldReduceMotion = useReducedMotion();
+const ProjectCard = ({ project, onOpen, shouldReduceMotion }) => {
+  const videoRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // Initialize from URL
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const projectId = params.get('project');
-    if (projectId) {
-      const project = projects.find(p => p.id === projectId);
-      if (project) {
-        setActiveProject(project);
-      } else {
-        // Invalid ID -> clean URL
-        const url = new URL(window.location);
-        url.searchParams.delete('project');
-        window.history.replaceState({}, '', url);
-      }
-    }
-  }, []);
-
-  // Handle browser back/forward buttons
-  useEffect(() => {
-    const handlePopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      const projectId = params.get('project');
-      if (projectId) {
-        const project = projects.find(p => p.id === projectId);
-        setActiveProject(project || null);
-      } else {
-        setActiveProject(null);
-        // Focus restoration if we navigate back to grid
-        if (triggerRef.current) {
-          triggerRef.current.focus();
-        }
-      }
-    };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  const openProject = (project, event) => {
-    if (event) {
-      triggerRef.current = event.currentTarget;
-    }
-    setActiveProject(project);
-    const url = new URL(window.location);
-    url.searchParams.set('project', project.id);
-    window.history.pushState({}, '', url);
-  };
-
-  const closeProject = () => {
-    setActiveProject(null);
-    const url = new URL(window.location);
-    url.searchParams.delete('project');
-    window.history.pushState({}, '', url);
-    
-    // Focus restoration after modal unmounts
-    setTimeout(() => {
-      if (triggerRef.current) {
-        triggerRef.current.focus();
-      }
-    }, shouldReduceMotion ? 0 : 400);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
     }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
     }
   };
 
   return (
-    <section className="py-24 w-full bg-[#050505] md:bg-transparent relative z-10" id="work">
-      <div className="container mx-auto px-6 max-w-7xl">
-        {/* Section Header */}
-        <div className="mb-16 flex flex-col items-center text-center">
-          <h2 className="text-4xl md:text-5xl font-light text-white mb-4 tracking-tight">
-            Selected Work
-          </h2>
-          <div className="w-12 h-[1px] bg-white/20"></div>
+    <motion.div
+      layoutId={shouldReduceMotion ? undefined : `project-card-${project.id}`}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      className={`group relative overflow-hidden rounded-2xl border border-white/10 hover:border-white/25 transition-colors duration-500 bg-[#0a0a0a]/80 backdrop-blur-xl flex flex-col justify-between p-7 md:p-9 min-h-[360px] md:min-h-[420px] cursor-pointer ${project.colSpan || 'md:col-span-6'}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={(e) => onOpen(project.id, e)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpen(project.id, e);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={`View deep dive case study: ${project.title}`}
+    >
+      {/* 1. Muted Background Media Layer (Fades in & plays only on active hover) */}
+      {project.video ? (
+        <div className="absolute inset-0 w-full h-full bg-black z-0">
+          <video
+            ref={videoRef}
+            src={project.video}
+            poster={project.poster}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className={`w-full h-full object-cover transition-opacity duration-700 pointer-events-none ${
+              isHovered ? 'opacity-50' : 'opacity-0'
+            }`}
+          />
+        </div>
+      ) : project.poster ? (
+        <div className="absolute inset-0 w-full h-full bg-black z-0">
+          <img
+            src={project.poster}
+            alt={project.title}
+            loading="lazy"
+            className={`w-full h-full object-cover transition-opacity duration-700 pointer-events-none ${
+              isHovered ? 'opacity-35' : 'opacity-0'
+            }`}
+          />
+        </div>
+      ) : (
+        /* Fallback Dynamic Gradient on Hover */
+        <div className={`absolute inset-0 z-0 bg-gradient-to-tr from-white/[0.08] via-transparent to-white/[0.02] transition-opacity duration-700 pointer-events-none ${
+          isHovered ? 'opacity-100' : 'opacity-0'
+        }`} />
+      )}
+
+      {/* 2. Background Technical Grid Pattern & Gradient Overlay */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-white/[0.03] via-transparent to-black/80 opacity-70 group-hover:opacity-90 transition-opacity duration-700 pointer-events-none" />
+      <div 
+        className="absolute inset-0 z-0 opacity-15 pointer-events-none"
+        style={{ 
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.2) 1px, transparent 0)', 
+          backgroundSize: '22px 22px' 
+        }} 
+      />
+
+      {/* 3. Top Bar: Category & Expand Cue */}
+      <div className="relative z-10 flex items-start justify-between gap-4 w-full">
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-mono tracking-[0.25em] text-gray-500 uppercase">
+            {project.track}
+          </span>
+          <span className="text-xs font-mono tracking-wider text-[#00f3ff]">
+            {project.category}
+          </span>
         </div>
 
-        {/* Bento Grid Container */}
-        <motion.div 
-          ref={containerRef}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[400px]"
-        >
-          {projects.map((project) => (
-            <motion.a 
-              key={project.id}
-              id={`project-node-${project.id}`}
-              href={project.isBentoOnly ? undefined : `?project=${project.id}`}
-              onClick={(e) => {
-                if (project.isBentoOnly) {
-                  e.preventDefault();
-                  return;
-                }
-                // Only prevent default if we're not opening in a new tab
-                if (e.button === 0 && !e.ctrlKey && !e.metaKey) {
-                  e.preventDefault();
-                  openProject(project, e);
-                }
-              }}
-              layoutId={shouldReduceMotion ? undefined : `project-container-${project.id}`}
-              variants={itemVariants}
-              whileHover={shouldReduceMotion ? {} : { scale: 0.98, transition: { type: "spring", stiffness: 400, damping: 30 } }}
-              className={`group relative ${project.colSpan} rounded-3xl overflow-hidden bg-[#050505] md:bg-transparent md:backdrop-blur-sm border border-white/5 flex flex-col justify-end p-8 md:p-10 transition-all duration-500 ${!project.isBentoOnly ? 'hover:border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent cursor-pointer' : ''}`}
-            >
-              {/* Top Right Arrow Indicator */}
-              {!project.isBentoOnly && (
-                <div className="absolute top-8 right-8 z-20 w-10 h-10 rounded-full bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-              )}
-
-              {/* Media Background */}
-              <div className="absolute inset-0 z-0 bg-[#0a0a0a] md:bg-transparent">
-                <motion.img
-                  layoutId={shouldReduceMotion ? undefined : `project-image-${project.id}`}
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover opacity-50 md:opacity-30 group-hover:opacity-50 group-hover:scale-105 transition-all duration-700 ease-out"
-                />
-                {project.hoverVideoPlaceholder && (
-                  <motion.div 
-                    className="w-full h-full absolute inset-0 z-0 opacity-0 group-hover:opacity-50 group-hover:scale-105 transition-all duration-700 ease-out"
-                    style={{ 
-                      backgroundImage: `url('${project.hoverVideoPlaceholder}')`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
-                    }}
-                  />
-                )}
-                <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#0a0a0a] md:from-[#0a0a0a]/50 via-[#0a0a0a]/80 md:via-[#0a0a0a]/30 to-transparent pointer-events-none" />
-              </div>
-              
-              {/* Content */}
-              <div className="relative z-30 transition-transform duration-500 group-hover:translate-y-[-4px]">
-                <motion.div layoutId={shouldReduceMotion ? undefined : `project-category-${project.id}`} className="mb-3 text-slate-500 font-mono text-xs tracking-widest uppercase font-bold transition-colors group-hover:text-white">
-                  {project.category}
-                </motion.div>
-                <motion.h3 layoutId={shouldReduceMotion ? undefined : `project-title-${project.id}`} className="text-3xl md:text-4xl font-display font-bold text-white mb-2">
-                  {project.title}
-                </motion.h3>
-                <motion.p layoutId={shouldReduceMotion ? undefined : `project-desc-${project.id}`} className="text-slate-400 font-light max-w-md">
-                  {project.shortDescription}
-                </motion.p>
-              </div>
-            </motion.a>
-          ))}
-        </motion.div>
+        {/* Action Cue */}
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-white/10 bg-white/[0.04] text-[10px] font-mono text-gray-400 group-hover:text-white group-hover:border-white/30 group-hover:bg-white/10 transition-all duration-300">
+          <span>CASE STUDY</span>
+          <span className="text-xs">↗</span>
+        </div>
       </div>
 
-      <AnimatePresence>
-        {activeProject && (
-          <ProjectModal 
-            key="project-modal" 
-            project={activeProject} 
-            onClose={closeProject} 
+      {/* 4. Bottom Content: Title, Description, and Tags (Lifts smoothly on hover) */}
+      <motion.div 
+        animate={shouldReduceMotion ? {} : { y: isHovered ? -8 : 0 }}
+        transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
+        className="relative z-10 flex flex-col gap-4 mt-12"
+      >
+        <div className="flex flex-col gap-2">
+          <motion.h3 
+            layoutId={shouldReduceMotion ? undefined : `project-title-${project.id}`}
+            className="text-2xl md:text-3xl lg:text-4xl font-display font-medium text-white tracking-tight group-hover:text-white transition-colors"
+          >
+            {project.title}
+          </motion.h3>
+          <p className="text-gray-400 text-sm md:text-base font-light leading-relaxed max-w-2xl line-clamp-2">
+            {project.tagline || project.shortDescription}
+          </p>
+        </div>
+
+        {/* Tech Stack Badges */}
+        <div className="flex flex-wrap gap-2 pt-2">
+          {(project.stack || project.tags)?.map((tag, i) => (
+            <span 
+              key={i} 
+              className="font-mono text-[10px] uppercase text-gray-300 border border-white/10 px-2.5 py-1 bg-white/[0.02] backdrop-blur-sm rounded-md"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Viewfinder Corner Brackets */}
+      <div className="absolute top-3 left-3 w-2 h-2 border-t border-l border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <div className="absolute bottom-3 right-3 w-2 h-2 border-b border-r border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+    </motion.div>
+  );
+};
+
+export default function BentoGrid() {
+  const [activeProjectId, setActiveProjectId] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('ALL');
+  const triggerRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // URL Sync Listener via window.history & popstate
+  useEffect(() => {
+    const handleUrlChange = () => {
+      const params = new URLSearchParams(window.location.search);
+      setActiveProjectId(params.get('project'));
+    };
+
+    handleUrlChange();
+    window.addEventListener('popstate', handleUrlChange);
+    return () => window.removeEventListener('popstate', handleUrlChange);
+  }, []);
+
+  const openProject = (id, event) => {
+    if (event) {
+      triggerRef.current = event.currentTarget;
+    }
+    window.history.pushState({}, '', `?project=${id}`);
+    setActiveProjectId(id);
+  };
+
+  const closeProject = () => {
+    window.history.pushState({}, '', window.location.pathname);
+    setActiveProjectId(null);
+    
+    setTimeout(() => {
+      if (triggerRef.current) {
+        triggerRef.current.focus();
+      }
+    }, shouldReduceMotion ? 0 : 250);
+  };
+
+  const activeProject = projects.find(p => p.id === activeProjectId);
+
+  const filteredProjects = projects.filter(p => {
+    if (activeFilter === 'AI') return p.track === 'AI / DEV CORE';
+    if (activeFilter === 'CREATIVE') return p.track === 'CREATIVE CORE';
+    return true;
+  });
+
+  return (
+    <section className="w-full relative z-10 bg-transparent py-24 px-6 md:px-12 max-w-7xl mx-auto flex flex-col justify-center" id="work">
+      
+      {/* Section Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-white/10 gap-6">
+        <div>
+          <div className="flex items-center gap-3 mb-3">
+            <span className="w-2 h-2 rounded-full bg-white/40" />
+            <h4 className="text-gray-500 font-mono tracking-[0.25em] text-xs uppercase">
+              02 // Dual-Core Operations
+            </h4>
+          </div>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-light text-white tracking-tight">
+            Logic & Magic <span className="text-white/30 italic font-serif">Deployed.</span>
+          </h2>
+        </div>
+
+        {/* Filter Badges */}
+        <div className="flex items-center gap-2 p-1.5 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-md self-start md:self-auto">
+          {['ALL', 'AI', 'CREATIVE'].map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-4 py-1.5 rounded-full text-xs font-mono tracking-widest uppercase transition-all duration-300 ${
+                activeFilter === filter 
+                  ? 'bg-white text-black font-semibold shadow-md' 
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              {filter === 'ALL' ? 'All Works' : filter === 'AI' ? 'AI / Dev Core' : 'Creative Core'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Asymmetrical Bento Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full">
+        {filteredProjects.map((project) => (
+          <ProjectCard 
+            key={project.id} 
+            project={project} 
+            onOpen={openProject}
+            shouldReduceMotion={shouldReduceMotion}
           />
-        )}
-      </AnimatePresence>
+        ))}
+      </div>
+
+      {/* Deep-Dive Case Study Modal */}
+      <CaseStudyModal 
+        project={activeProject} 
+        onClose={closeProject} 
+      />
+
     </section>
   );
 }

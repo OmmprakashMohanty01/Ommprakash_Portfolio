@@ -93,7 +93,7 @@ export default function Navigation() {
         }}
         initial="top"
         animate={isAtTop ? "top" : hidden ? "hidden" : "visible"}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
         className="fixed top-0 left-0 right-0 z-[60] backdrop-blur-md border-b"
       >
         <div className="container mx-auto px-6 max-w-7xl h-20 flex items-center justify-between">
@@ -162,7 +162,7 @@ export default function Navigation() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
             className="fixed inset-0 z-[55] bg-[#050505]/95 backdrop-blur-xl flex flex-col items-center justify-center pt-20 pb-8 px-6 md:hidden overflow-hidden overscroll-none"
           >
             <div className="flex flex-col items-center gap-8 w-full max-w-sm">

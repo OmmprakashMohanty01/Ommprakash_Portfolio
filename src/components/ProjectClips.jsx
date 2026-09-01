@@ -93,7 +93,7 @@ export default function ProjectClips({ isVisible, isMobile }) {
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -5 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
           className="absolute top-full left-1/2 flex flex-col items-start w-[240px] pt-1"
         >
           {/* Vertical stem dropping from the parent center */}

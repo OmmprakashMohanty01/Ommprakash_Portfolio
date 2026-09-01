@@ -49,10 +49,13 @@ export default function TimelineNavigation() {
       setMarkers(newMarkers);
     };
 
-    // Give layout time to settle
-    setTimeout(updateMarkers, 100);
-    window.addEventListener('resize', updateMarkers);
-    return () => window.removeEventListener('resize', updateMarkers);
+    updateMarkers();
+    const resizeObserver = new ResizeObserver(() => {
+      updateMarkers();
+    });
+    
+    resizeObserver.observe(document.body);
+    return () => resizeObserver.disconnect();
   }, []);
 
   // Handle active section via IntersectionObserver (more reliable for highlighting than math)
@@ -65,7 +68,7 @@ export default function TimelineNavigation() {
           }
         });
       },
-      { rootMargin: '-40% 0px -60% 0px' }
+      { rootMargin: '-40% 0px -40% 0px' }
     );
 
     sections.forEach(({ id }) => {
@@ -75,6 +78,19 @@ export default function TimelineNavigation() {
 
     return () => observer.disconnect();
   }, []);
+
+  // Manage accessibility for mobile menu
+  useEffect(() => {
+    const mainNode = document.querySelector('main');
+    if (!mainNode) return;
+    if (mobileMenuOpen) {
+      mainNode.setAttribute('aria-hidden', 'true');
+    } else {
+      mainNode.removeAttribute('aria-hidden');
+    }
+    
+    return () => mainNode.removeAttribute('aria-hidden');
+  }, [mobileMenuOpen]);
 
   // Hide on scroll down
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -106,7 +122,7 @@ export default function TimelineNavigation() {
         }}
         initial="top"
         animate={isAtTop ? "top" : hidden ? "hidden" : "visible"}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
         className="fixed top-0 left-0 right-0 z-[60] backdrop-blur-md border-b"
       >
         <div className="container mx-auto px-6 max-w-7xl h-20 flex items-center justify-between">

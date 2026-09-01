@@ -1,6 +1,7 @@
-import { useEffect, useRef, lazy, Suspense } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useEffect, lazy, Suspense } from 'react';
+import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { useLenis } from 'lenis/react';
+import * as Dialog from '@radix-ui/react-dialog';
 
 const MultiCamSportSenseCaseStudy = lazy(() => import('./case-study/MultiCamSportSenseCaseStudy'));
 const PersonalBrandingEngineCaseStudy = lazy(() => import('./case-study/PersonalBrandingEngineCaseStudy'));
@@ -15,8 +16,6 @@ const CaseStudyLoadingFallback = () => (
 
 export default function ProjectModal({ project, onClose }) {
   const lenis = useLenis();
-  const modalRef = useRef(null);
-  const closeButtonRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
 
   // Stop background scroll
@@ -29,79 +28,42 @@ export default function ProjectModal({ project, onClose }) {
     };
   }, [project, lenis]);
 
-  // Keyboard navigation & Focus Trapping
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-        return;
-      }
-
-      if (e.key === 'Tab') {
-        const focusableElements = modalRef.current?.querySelectorAll(
-          'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select, [tabindex]:not([tabindex="-1"])'
-        );
-        
-        if (!focusableElements || focusableElements.length === 0) return;
-
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-
-        if (e.shiftKey) {
-          if (document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-          }
-        } else {
-          if (document.activeElement === lastElement) {
-            e.preventDefault();
-            firstElement.focus();
-          }
-        }
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    
-    // Autofocus close button on mount
-    if (closeButtonRef.current) {
-      setTimeout(() => {
-        if (closeButtonRef.current) closeButtonRef.current.focus();
-      }, 50); // slight delay to allow layout to settle
-    }
-
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
-
-  if (!project) return null;
-
   return (
-    <motion.div 
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={`modal-title-${project.id}`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: shouldReduceMotion ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed inset-0 z-50 overflow-y-auto bg-[#050505] overscroll-none"
-      ref={modalRef}
-    >
-      {/* Fixed Header / Close Button */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-end items-center p-6 md:p-10 pointer-events-none">
-        <button 
-          ref={closeButtonRef}
-          onClick={onClose}
-          className="pointer-events-auto w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 group"
-          aria-label="Close Case Study"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white group-hover:scale-90 transition-transform">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-      </div>
+    <Dialog.Root open={!!project} onOpenChange={(open) => !open && onClose()}>
+      <AnimatePresence>
+        {project && (
+          <Dialog.Portal forceMount>
+            <Dialog.Overlay asChild forceMount>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
+                className="fixed inset-0 z-50 overflow-y-auto bg-[#050505] overscroll-none"
+              >
+                <Dialog.Content 
+                  aria-describedby={undefined}
+                  className="w-full outline-none"
+                >
+                  <Dialog.Title className="sr-only">
+                    {project.title}
+                  </Dialog.Title>
 
-      {project.id === 'multi-cam-sportsense' ? (
+                  {/* Fixed Header / Close Button */}
+                  <div className="fixed top-0 left-0 right-0 z-50 flex justify-end items-center p-6 md:p-10 pointer-events-none">
+                    <Dialog.Close asChild>
+                      <button 
+                        className="pointer-events-auto w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 group"
+                        aria-label="Close Case Study"
+                      >
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white group-hover:scale-90 transition-transform">
+                          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </Dialog.Close>
+                  </div>
+
+                  {project.id === 'multi-cam-sportsense' ? (
         <Suspense fallback={<CaseStudyLoadingFallback />}>
           <MultiCamSportSenseCaseStudy project={project} />
         </Suspense>
@@ -148,7 +110,7 @@ export default function ProjectModal({ project, onClose }) {
             <motion.div 
               initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: shouldReduceMotion ? 0 : 0.2 }}
+              transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
               className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 border-y border-white/10 mb-16 font-mono text-sm"
             >
               <div>
@@ -220,7 +182,7 @@ export default function ProjectModal({ project, onClose }) {
           <motion.div 
             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: shouldReduceMotion ? 0 : 0.2 }}
+            transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
             className="flex flex-col items-center justify-center text-center py-20 w-full"
           >
             <h2 className="text-3xl font-display font-bold text-white mb-6">Project Overview</h2>
@@ -244,6 +206,12 @@ export default function ProjectModal({ project, onClose }) {
       </div>
         </>
       )}
-    </motion.div>
+    </Dialog.Content>
+  </motion.div>
+</Dialog.Overlay>
+</Dialog.Portal>
+)}
+</AnimatePresence>
+</Dialog.Root>
   );
 }

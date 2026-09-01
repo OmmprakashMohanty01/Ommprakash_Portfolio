@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 
 /**
  * Inner component encapsulating the expensive Framer Motion physics.
@@ -8,37 +8,79 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 const CursorImplementation = () => {
   const dotX = useMotionValue(-100);
   const dotY = useMotionValue(-100);
-
   const ringX = useMotionValue(-100);
   const ringY = useMotionValue(-100);
+  
+  // Track hover state natively without React Context overhead
+  const [isHovering, setIsHovering] = useState(false);
+  const [hoverText, setHoverText] = useState("");
 
-  const springConfig = { damping: 25, stiffness: 200, mass: 0.5 };
+  const springConfig = { damping: 40, stiffness: 400, mass: 0.2 }; // tighter, less bouncy spring
   const springRingX = useSpring(ringX, springConfig);
   const springRingY = useSpring(ringY, springConfig);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      dotX.set(e.clientX - 4);
-      dotY.set(e.clientY - 4);
+      dotX.set(e.clientX - 2); // 4px dot
+      dotY.set(e.clientY - 2);
       
-      ringX.set(e.clientX - 16);
-      ringY.set(e.clientY - 16);
+      // Ring follows a bit loosely, but tightens up
+      ringX.set(e.clientX - (isHovering ? 24 : 12));
+      ringY.set(e.clientY - (isHovering ? 24 : 12));
+    };
+
+    const handleMouseOver = (e) => {
+      const interactive = e.target.closest('a, button, [data-cursor="interactive"], .cursor-interactive');
+      if (interactive) {
+        setIsHovering(true);
+        setHoverText(interactive.getAttribute('data-cursor-text') || "");
+      } else {
+        setIsHovering(false);
+        setHoverText("");
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [dotX, dotY, ringX, ringY]);
+    document.addEventListener("mouseover", handleMouseOver);
+    
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseover", handleMouseOver);
+    };
+  }, [dotX, dotY, ringX, ringY, isHovering]);
 
   return (
     <div className="pointer-events-none z-[9999]">
+      {/* Precision Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 w-1 h-1 bg-white rounded-full pointer-events-none z-[9999]"
         style={{ x: dotX, y: dotY }}
       />
+      {/* Subtle Trailing Ring */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border-[1.5px] border-white/50 rounded-full pointer-events-none z-[9998]"
+        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9998] flex items-center justify-center border border-white/30 backdrop-blur-[2px]"
+        initial={{ width: 24, height: 24 }}
+        animate={{ 
+          width: isHovering ? 48 : 24, 
+          height: isHovering ? 48 : 24,
+          backgroundColor: isHovering ? "rgba(255,255,255,0.05)" : "transparent"
+        }}
+        transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
         style={{ x: springRingX, y: springRingY }}
-      />
+      >
+        <AnimatePresence>
+          {isHovering && hoverText && (
+            <motion.span 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="text-[8px] font-mono tracking-widest text-white uppercase mix-blend-difference"
+            >
+              {hoverText}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </div>
   );
 };

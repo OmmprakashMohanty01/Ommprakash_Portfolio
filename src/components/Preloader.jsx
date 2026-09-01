@@ -66,14 +66,14 @@ const Preloader = ({ onComplete }) => {
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.1 }}
         >
           00 / INITIALIZING
         </motion.span>
         <motion.span
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.1 }}
         >
           OMM
         </motion.span>
@@ -84,7 +84,7 @@ const Preloader = ({ onComplete }) => {
         <motion.div
           initial={shouldReduceMotion ? { opacity: 0 } : { y: 40, opacity: 0, clipPath: 'inset(100% 0 0 0)' }}
           animate={{ y: 0, opacity: 1, clipPath: 'inset(0% 0 0 0)' }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.2 }}
         >
           <h1 className="text-[clamp(2.5rem,8vw,8rem)] font-display font-bold text-white tracking-tighter uppercase whitespace-nowrap leading-none">
             OMMPRAKASH
@@ -97,14 +97,14 @@ const Preloader = ({ onComplete }) => {
         <motion.span
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.3 }}
         >
           Creative Technologist
         </motion.span>
         <motion.span
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.3 }}
         >
           Software Engineer
         </motion.span>

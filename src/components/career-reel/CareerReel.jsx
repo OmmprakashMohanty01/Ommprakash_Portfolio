@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react';
+import { useFrame } from '../../context/FrameContext';
 
 // Lazy load the heavy 3D scene
 const CareerScene = React.lazy(() => import('./CareerScene'));
@@ -7,6 +8,7 @@ export default function CareerReel() {
   const [shouldRender, setShouldRender] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { mode, transitionProgress } = useFrame();
 
   useEffect(() => {
     // Check capabilities
@@ -23,8 +25,6 @@ export default function CareerReel() {
     window.addEventListener('resize', checkMobile);
 
     // Only render WebGL if we aren't in a reduced-motion environment
-    // For mobile, we will still render a simplified scene, so we only 
-    // strictly disable on reduced motion for now.
     if (!mediaQuery.matches) {
       setShouldRender(true);
     }
@@ -42,7 +42,11 @@ export default function CareerReel() {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none">
       <Suspense fallback={null}>
-        <CareerScene isMobile={isMobile} />
+        <CareerScene 
+          isMobile={isMobile} 
+          mode={mode} 
+          transitionProgress={transitionProgress} 
+        />
       </Suspense>
     </div>
   );

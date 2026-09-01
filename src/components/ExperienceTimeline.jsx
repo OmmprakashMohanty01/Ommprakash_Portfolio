@@ -91,10 +91,7 @@ const ExperienceTimeline = () => {
                   whileInView={{ x: 0, opacity: 1 }}
                   whileHover={{ scale: 1.02, x: 5, transition: { type: "spring", stiffness: 400, damping: 25 } }}
                   viewport={{ once: true, margin: "-100px" }}
-                  transition={{
-                    duration: 0.6,
-                    ease: [0.16, 1, 0.3, 1], // Custom smooth easing
-                  }}
+                  transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
                   className="w-full relative group overflow-hidden rounded-2xl bg-[#050505] border border-white/5 flex-col p-6 md:p-8 transition-colors duration-500 hover:border-white/20"
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">

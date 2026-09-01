@@ -14,7 +14,7 @@ export default function ArchitectureFlow({ pipeline }) {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: index * 0.15 }}
+            transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
             className="relative flex flex-col md:flex-row md:items-start gap-6 md:gap-12"
           >
             {/* Desktop Node */}

@@ -1,3 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --ink: #030303;
+  --paper: #F3F3F3;
+  --accent: #FF3300;
+}
+
+html, body, #root { 
+  background-color: var(--ink) !important; 
+  color: var(--paper); 
+  font-family: 'Inter', sans-serif;
+  overflow: hidden; 
+  min-height: 100vh; 
+  overscroll-behavior: none; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 2. The Living Film Grain (Micro-Artifacts) */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+  mix-blend-mode: overlay;
+  /* Rapid stepping animation makes the grain physically "buzz" */
+  animation: noiseFlutter 0.8s steps(4) infinite;
+}
+
+@keyframes noiseFlutter {
+  0% { transform: translate(0, 0); opacity: 0.03; }
+  25% { transform: translate(1px, -1px); opacity: 0.04; }
+  50% { transform: translate(-1px, 2px); opacity: 0.03; }
+  75% { transform: translate(-2px, -1px); opacity: 0.05; }
+  100% { transform: translate(0, 0); opacity: 0.03; }
+}
+
+/* Liquid Metal Typography */
+.liquid-metal {
+  background: linear-gradient(
+    110deg,
+    #444444 0%,
+    #999999 15%,
+    #ffffff 25%,
+    #bbbbbb 35%,
+    #444444 50%,
+    #FF3300 55%,
+    #444444 60%,
+    #ffffff 75%,
+    #999999 85%,
+    #444444 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: liquidMetalFlow 8s linear infinite;
+}
+
+@keyframes liquidMetalFlow {
+  to {
+    background-position: -200% center;
+  }
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* 1. The Breathing Aurora (Ambient Light) */
+.dark-aurora {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 75% 60%, rgba(255, 51, 0, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 25% 40%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  /* 45-second cycle for an imperceptible, organic rhythm */
+  animation: ambientBreath 45s ease-in-out infinite alternate;
+}
+
+@keyframes ambientBreath {
+  0% { 
+    opacity: 0.4; 
+    transform: translateY(0) scale(1);
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: translateY(-2vh) scale(1.02); /* Moving the light, not the DOM */
+  }
+  100% { 
+    opacity: 0.5; 
+    transform: translateY(1vh) scale(0.98);
+  }
+}
+
+.slider-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: white;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.slider-thumb::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: white;
+  cursor: pointer;
+  border-radius: 2px;
+  border: none;
+}

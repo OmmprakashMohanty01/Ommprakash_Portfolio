@@ -27,11 +27,7 @@ export default function SystemPipeline({ nodes = [], activeNodeId = null }) {
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ 
-                    duration: shouldReduceMotion ? 0 : 0.5, 
-                    delay: shouldReduceMotion ? 0 : index * 0.15,
-                    ease: [0.16, 1, 0.3, 1] 
-                  }}
+                  transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
                   className={`w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center border transition-all duration-700
                     ${stateIsActive 
                       ? 'bg-white text-black border-white shadow-[0_0_25px_rgba(255,255,255,0.15)] ring-1 ring-white/30 ring-offset-4 ring-offset-black' 
@@ -49,10 +45,7 @@ export default function SystemPipeline({ nodes = [], activeNodeId = null }) {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ 
-                    duration: shouldReduceMotion ? 0 : 0.5, 
-                    delay: shouldReduceMotion ? 0 : index * 0.15 + 0.2,
-                  }}
+                  transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
                   className="flex flex-col md:items-center text-left md:text-center pt-1 pb-6 md:pb-0"
                 >
                   <span className={`text-sm md:text-base font-display font-medium tracking-wide transition-colors duration-500 ${stateIsActive ? 'text-white' : 'text-slate-300 group-hover:text-white/80'}`}>
@@ -77,11 +70,7 @@ export default function SystemPipeline({ nodes = [], activeNodeId = null }) {
                       initial={{ scaleX: 0 }}
                       whileInView={{ scaleX: 1 }}
                       viewport={{ once: true, margin: "-50px" }}
-                      transition={{ 
-                        duration: shouldReduceMotion ? 0 : 0.8, 
-                        delay: shouldReduceMotion ? 0 : index * 0.15 + 0.3,
-                        ease: "easeInOut"
-                      }}
+                      transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
                       style={{ width: '100%' }}
                     />
                   </div>
@@ -93,11 +82,7 @@ export default function SystemPipeline({ nodes = [], activeNodeId = null }) {
                       initial={{ scaleY: 0 }}
                       whileInView={{ scaleY: 1 }}
                       viewport={{ once: true, margin: "-50px" }}
-                      transition={{ 
-                        duration: shouldReduceMotion ? 0 : 0.8, 
-                        delay: shouldReduceMotion ? 0 : index * 0.15 + 0.3,
-                        ease: "easeInOut"
-                      }}
+                      transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
                       style={{ height: '100%' }}
                     />
                   </div>

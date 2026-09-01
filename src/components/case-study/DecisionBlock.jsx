@@ -6,7 +6,7 @@ export default function DecisionBlock({ decision, why, tradeOff, index }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
       className="p-8 border border-white/10 bg-white/[0.02] rounded-xl hover:bg-white/[0.04] transition-colors"
     >
       <h3 className="text-xl font-display font-bold text-white mb-6 flex items-center gap-4">
