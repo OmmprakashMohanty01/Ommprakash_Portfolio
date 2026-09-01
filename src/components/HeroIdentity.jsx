@@ -48,7 +48,7 @@ export default function HeroIdentity() {
             className="font-bold tracking-tighter liquid-metal"
             style={{ 
               fontFamily: "'Syncopate', sans-serif",
-              fontSize: "clamp(2.5rem, 6.5vw, 110px)", // Perfectly scaled to fit
+              fontSize: "clamp(2rem, 11vw, 110px)", // Perfectly scaled to fit
               lineHeight: "0.9"
             }}
           >
@@ -64,7 +64,7 @@ export default function HeroIdentity() {
             className="font-bold text-transparent tracking-tighter"
             style={{ 
               fontFamily: "'Syncopate', sans-serif",
-              fontSize: "clamp(2.5rem, 6.5vw, 110px)",
+              fontSize: "clamp(2rem, 11vw, 110px)",
               lineHeight: "0.9",
               WebkitTextStroke: "1px rgba(255, 255, 255, 0.4)"
             }}

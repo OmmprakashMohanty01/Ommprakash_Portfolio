@@ -28,11 +28,15 @@ export default function Scene01Arrival({ onComplete }) {
     const offCtx = offCanvas.getContext('2d');
 
     offCtx.fillStyle = 'white';
-    const fontSize = Math.min(logicalWidth * 0.09, 130); 
+    const isMobile = logicalWidth < 768;
+    // Scale down aggressively for mobile, cap it for desktop
+    const fontSize = isMobile ? logicalWidth * 0.12 : Math.min(logicalWidth * 0.09, 130); 
     offCtx.font = `bold ${fontSize}px "Syncopate", sans-serif`;
     offCtx.textAlign = 'center';
     offCtx.textBaseline = 'middle';
-    offCtx.fillText('OMMPRAKASH', logicalWidth / 2, logicalHeight / 2 - 50);
+    
+    // Push it up slightly higher on mobile so it centers nicely
+    offCtx.fillText('OMMPRAKASH', logicalWidth / 2, logicalHeight / 2 - (isMobile ? 30 : 50));
 
     const textData = offCtx.getImageData(0, 0, logicalWidth, logicalHeight);
     let targetCoordinates = [];
@@ -175,14 +179,11 @@ export default function Scene01Arrival({ onComplete }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
-            transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15 }}
-            className="absolute bottom-16 md:bottom-24 left-0 w-full flex flex-col items-center justify-center text-center pointer-events-auto z-10"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute bottom-10 md:bottom-24 left-0 w-full flex flex-col items-center justify-center text-center pointer-events-auto z-10 px-4"
           >
-            <motion.div
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <p className="text-sm md:text-xl font-serif text-white/80 tracking-widest max-w-2xl px-6 mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+            <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
+              <p className="text-xs md:text-xl font-serif text-white/80 tracking-widest max-w-2xl px-2 md:px-6 mb-6 md:mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                 I BUILD THINGS BETWEEN LOGIC AND IMAGINATION.
               </p>
             </motion.div>

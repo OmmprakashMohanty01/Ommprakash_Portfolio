@@ -113,20 +113,23 @@ html, body, #root {
   }
 }
 
+/* Touch-Safe Sliders for the Decision Engine */
 .slider-thumb::-webkit-slider-thumb {
-  -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
-  background: white;
+  width: 24px;  /* Enlarged for thumb tapping */
+  height: 24px; /* Enlarged for thumb tapping */
+  background: #ffffff;
   cursor: pointer;
   border-radius: 2px;
+  box-shadow: 0 0 10px rgba(255, 51, 0, 0.5);
 }
+
 .slider-thumb::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: white;
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
   cursor: pointer;
   border-radius: 2px;
   border: none;
+  box-shadow: 0 0 10px rgba(255, 51, 0, 0.5);
 }

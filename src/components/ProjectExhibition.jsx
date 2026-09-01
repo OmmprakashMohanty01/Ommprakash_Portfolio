@@ -51,7 +51,7 @@ export default function ProjectExhibition() {
   };
 
   return (
-    <section className="relative w-full min-h-screen bg-[#030303] py-32 flex flex-col justify-center border-t border-white/10 z-20">
+    <section className="relative w-full min-h-screen bg-[#030303] py-16 md:py-32 flex flex-col justify-center border-t border-white/10 z-20" style={{ perspective: "1500px" }}>
       
       {/* DYNAMIC VIDEO BACKGROUND */}
       <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">

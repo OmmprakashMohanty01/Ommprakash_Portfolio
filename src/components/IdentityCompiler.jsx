@@ -41,7 +41,7 @@ export default function IdentityCompiler() {
   const isFinished = compileIndex === compileSteps.length - 1;
 
   return (
-    <section className="relative w-full py-32 bg-[#030303] border-t border-white/10 z-20 flex flex-col items-center">
+    <section className="relative w-full py-16 md:py-32 bg-[#030303] border-t border-white/10 z-20 flex flex-col items-center">
       {/* Subtle Background Radial Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,51,0,0.03)_0%,transparent_70%)] pointer-events-none" />
 
@@ -82,8 +82,8 @@ export default function IdentityCompiler() {
             ))}
           </div>
 
-          {/* UPGRADE: Physical CRT Terminal */}
-          <div className="md:w-2/3 h-64 border border-white/20 bg-[#050505] p-6 md:p-8 font-mono text-xs overflow-hidden relative shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-sm">
+          {/* UPGRADE: Changed h-64 to min-h-[300px] h-auto md:h-64 */}
+          <div className="md:w-2/3 min-h-[300px] h-auto md:h-64 border border-white/20 bg-[#050505] p-6 md:p-8 font-mono text-xs overflow-hidden relative shadow-[0_0_50px_rgba(0,0,0,0.5)] rounded-sm">
             {/* CRT Scanline Overlay */}
             <div className="absolute inset-0 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNCIgaGVpZ2h0PSI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-50 z-20" />
             <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_60px_rgba(0,0,0,0.9)] z-30" />

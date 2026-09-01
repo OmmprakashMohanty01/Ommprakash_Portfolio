@@ -24,7 +24,7 @@ export default function DecisionEngine() {
   const arch = getArchitecture();
 
   return (
-    <section className="relative w-full py-32 bg-[#030303] border-t border-white/10 z-20 flex flex-col items-center">
+    <section className="relative w-full py-16 md:py-32 bg-[#030303] border-t border-white/10 z-20 flex flex-col items-center">
       
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12">
         <motion.div 
