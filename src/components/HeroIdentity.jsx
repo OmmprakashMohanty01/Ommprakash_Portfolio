@@ -38,9 +38,9 @@ export default function HeroIdentity() {
       */}
       <motion.div 
         style={{ x: textX, y: textY }}
-        className="relative z-30 w-full pl-[6vw] flex flex-col items-start justify-center pointer-events-none max-w-[90vw] md:max-w-[65vw] pt-24 md:pt-0"
+        className="relative z-30 w-full pl-[4vw] md:pl-[6vw] flex flex-col items-start justify-center pointer-events-none max-w-[95vw] md:max-w-[65vw] pt-24 md:pt-0"
       >
-        <div className="overflow-hidden pb-2">
+        <div className="overflow-hidden pb-2 w-full">
           <motion.h1 
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -48,7 +48,7 @@ export default function HeroIdentity() {
             className="font-bold tracking-tighter liquid-metal"
             style={{ 
               fontFamily: "'Syncopate', sans-serif",
-              fontSize: "clamp(2rem, 11vw, 110px)", // Perfectly scaled to fit
+              fontSize: "clamp(1.5rem, 7.5vw, 110px)",
               lineHeight: "0.9"
             }}
           >
@@ -56,7 +56,7 @@ export default function HeroIdentity() {
           </motion.h1>
         </div>
         
-        <div className="overflow-hidden">
+        <div className="overflow-hidden w-full">
           <motion.h1 
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -64,7 +64,7 @@ export default function HeroIdentity() {
             className="font-bold text-transparent tracking-tighter"
             style={{ 
               fontFamily: "'Syncopate', sans-serif",
-              fontSize: "clamp(2rem, 11vw, 110px)",
+              fontSize: "clamp(1.5rem, 7.5vw, 110px)",
               lineHeight: "0.9",
               WebkitTextStroke: "1px rgba(255, 255, 255, 0.4)"
             }}
@@ -73,17 +73,16 @@ export default function HeroIdentity() {
           </motion.h1>
         </div>
 
-        {/* Short Pitch */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", mass: 1.2, stiffness: 60, damping: 15, delay: 0.5 }}
-          className="mt-8 max-w-sm pointer-events-auto"
+          className="mt-8 max-w-sm pointer-events-auto pr-4"
         >
-          <p className="font-serif text-lg text-white/90 leading-relaxed mb-4">
+          <p className="font-serif text-base md:text-lg text-white/90 leading-relaxed mb-4">
             Bridging cinematic storytelling with scalable architecture.
           </p>
-          <p className="font-mono text-[9px] text-[#FF3300] tracking-[0.2em] uppercase">
+          <p className="font-mono text-[8px] md:text-[9px] text-[#FF3300] tracking-[0.2em] uppercase">
             Computer Vision ✦ LLM Ops ✦ Motion
           </p>
         </motion.div>
