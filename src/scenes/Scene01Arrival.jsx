@@ -29,14 +29,21 @@ export default function Scene01Arrival({ onComplete }) {
 
     offCtx.fillStyle = 'white';
     const isMobile = logicalWidth < 768;
-    // Scale down aggressively for mobile, cap it for desktop
-    const fontSize = isMobile ? logicalWidth * 0.12 : Math.min(logicalWidth * 0.09, 130); 
+    
+    // We use a much larger font size on mobile now so the 8px step samples it cleanly
+    const fontSize = isMobile ? logicalWidth * 0.18 : Math.min(logicalWidth * 0.09, 130); 
     offCtx.font = `bold ${fontSize}px "Syncopate", sans-serif`;
     offCtx.textAlign = 'center';
     offCtx.textBaseline = 'middle';
     
-    // Push it up slightly higher on mobile so it centers nicely
-    offCtx.fillText('OMMPRAKASH', logicalWidth / 2, logicalHeight / 2 - (isMobile ? 30 : 50));
+    if (isMobile) {
+      // Split into two massive, readable lines on mobile
+      offCtx.fillText('OMM', logicalWidth / 2, logicalHeight / 2 - 45);
+      offCtx.fillText('PRAKASH', logicalWidth / 2, logicalHeight / 2 + 25);
+    } else {
+      // Keep single line on desktop
+      offCtx.fillText('OMMPRAKASH', logicalWidth / 2, logicalHeight / 2 - 50);
+    }
 
     const textData = offCtx.getImageData(0, 0, logicalWidth, logicalHeight);
     let targetCoordinates = [];
@@ -180,7 +187,7 @@ export default function Scene01Arrival({ onComplete }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="absolute bottom-10 md:bottom-24 left-0 w-full flex flex-col items-center justify-center text-center pointer-events-auto z-10 px-4"
+            className="absolute bottom-32 md:bottom-24 left-0 w-full flex flex-col items-center justify-center text-center pointer-events-auto z-10 px-4"
           >
             <motion.div animate={{ y: [0, -5, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
               <p className="text-xs md:text-xl font-serif text-white/80 tracking-widest max-w-2xl px-2 md:px-6 mb-6 md:mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
