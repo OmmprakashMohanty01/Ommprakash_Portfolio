@@ -97,9 +97,15 @@ export default function HeroIdentity() {
         initial={{ opacity: 0, x: "10vw", filter: "blur(10px)" }}
         animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
         transition={{ duration: 1.5, ease, delay: 0.2 }}
-        className="absolute bottom-0 right-0 z-10 w-[100vw] h-[65vh] md:w-[45vw] md:h-[85vh] pointer-events-none"
+        // FIX: Anchored to top-0 on mobile to lift the face, bottom-0 on desktop
+        className="absolute top-0 md:top-auto md:bottom-0 right-0 z-10 w-[100vw] h-[85vh] md:w-[45vw] md:h-[85vh] pointer-events-none"
       >
-        <img src="/suit-cutout-clean.png" alt="Ommprakash Mohanty" className="w-full h-full object-cover object-bottom grayscale contrast-[1.1] brightness-[0.8] md:brightness-[0.9] mix-blend-lighten" />
+        {/* FIX: object-top on mobile keeps the head high, text falls on the chest */}
+        <img 
+          src="/suit-cutout-clean.png" 
+          alt="Ommprakash Mohanty" 
+          className="w-full h-full object-cover object-top md:object-bottom grayscale contrast-[1.1] brightness-[0.7] md:brightness-[0.9] mix-blend-lighten" 
+        />
         
         {/* Seamless Blending Masks */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-[#030303]/40 to-transparent" />

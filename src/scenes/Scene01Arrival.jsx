@@ -30,26 +30,21 @@ export default function Scene01Arrival({ onComplete }) {
     offCtx.fillStyle = 'white';
     const isMobile = logicalWidth < 768;
     
-    // We use a much larger font size on mobile now so the 8px step samples it cleanly
-    const fontSize = isMobile ? logicalWidth * 0.18 : Math.min(logicalWidth * 0.09, 130); 
+    // Scale font properly for a single line
+    const fontSize = isMobile ? logicalWidth * 0.11 : Math.min(logicalWidth * 0.09, 130); 
     offCtx.font = `bold ${fontSize}px "Syncopate", sans-serif`;
     offCtx.textAlign = 'center';
     offCtx.textBaseline = 'middle';
     
-    if (isMobile) {
-      // Split into two massive, readable lines on mobile
-      offCtx.fillText('OMM', logicalWidth / 2, logicalHeight / 2 - 45);
-      offCtx.fillText('PRAKASH', logicalWidth / 2, logicalHeight / 2 + 25);
-    } else {
-      // Keep single line on desktop
-      offCtx.fillText('OMMPRAKASH', logicalWidth / 2, logicalHeight / 2 - 50);
-    }
+    // BACK TO ONE SINGLE, BALANCED LINE
+    offCtx.fillText('OMMPRAKASH', logicalWidth / 2, logicalHeight / 2 - (isMobile ? 30 : 50));
 
     const textData = offCtx.getImageData(0, 0, logicalWidth, logicalHeight);
     let targetCoordinates = [];
     
-    // INCREASED STEP SIZE (from 6 to 8) to eliminate overlapping text messiness
-    const step = 8;
+    // THE MAGIC FIX: Dynamic sampling density. 
+    // Desktop uses 8px. Mobile uses 4px to sample the smaller font accurately.
+    const step = isMobile ? 4 : 8;
     for (let y = 0; y < textData.height; y += step) {
       for (let x = 0; x < textData.width; x += step) {
         if (textData.data[(y * 4 * textData.width) + (x * 4) + 3] > 128) {
